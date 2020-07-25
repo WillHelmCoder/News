@@ -1,0 +1,35 @@
+﻿@model News.Models.UserMagazine
+
+@{
+    ViewBag.Title = "Detalles de editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles de editor</h2>
+
+<div>
+    <h4>Editor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Magazine.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Magazine.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.UserMagazineId }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+</p>

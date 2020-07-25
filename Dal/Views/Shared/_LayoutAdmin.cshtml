@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <title>@ViewBag.Title - The Content</title>
+
+    @RenderSection("References", false)
+    @RenderSection("scripts", false)
+
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/elegant-icons-style.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/widgets.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/style.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/style-responsive.css" />
+    <link rel="stylesheet" href="~/Content/AdminLayout/css/jquery-ui-1.10.4.min.css" />
+    <link rel="stylesheet" href="/Content/AdminLayout/css/bootstrap-fileupload.css" />
+    <link rel="stylesheet" href="~/Scripts/morris-chart/morris.css" />
+    <link rel="stylesheet" href="~/Content/jquery.tagsinput.css" />
+
+    <link rel="stylesheet" href="/Content/myStyleSheet.css" />
+
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+    <script src="~/Content/AdminLayout/js/bootstrap.min.js"></script>
+    <script src="/Content/AdminLayout/js/bootstrap-fileupload.js"></script>
+    <script src="~/Content/AdminLayout/js/jquery.nicescroll.js"></script>
+    <script src="~/Content/AdminLayout/js/jquery.knob.js"></script>
+    <script src="~/Content/AdminLayout/js/scripts.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/jquery.tagsinput.min.js"></script>
+
+    @RenderSection("ExtraCss", false)
+</head>
+<body class="p-relative">
+    <style>
+        #AlertsContainer {
+            position: absolute !important;
+            top: 10px !important;
+            left: 10px !important;
+            right: 10px !important;
+            z-index: 10000 !important;
+        }
+    </style>
+
+    <div id="AlertsContainer" class="alert-container">
+    </div>
+
+    <section id="container" class="">
+        <header class="header dark-bg">
+            <div class="toggle-nav">
+                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
+            </div>
+            <div class="top-nav notification-row">
+                <!-- notificatoin dropdown start-->
+                <ul class="nav pull-right top-menu">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            @*<span class="profile-ava">
+                                    <img alt="" src="img/avatar1_small.jpg">
+                                </span>*@
+                            <span class="username">@(Request.Cookies["currentUser"] != null ? Request.Cookies["currentUser"].Value : "usuario")</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li>
+                                <a href="@Url.Action("Perfil", "Account")"><i class="icon_key_alt"></i> Perfil</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LogOff", "Account")"><i class="icon_key_alt"></i> Cerrar sesi&oacute;n</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <!--logo start-->
+                <div>
+                    <a href="@Url.Action("Index", "Magazines")" class="logo" style="margin-top: 15px; margin-left: 25%; min-height: 55px">
+                        @*<img src="~/Content/images/The_Content_Logo_Blanco.png" height="35" />*@
+                        <img src="~/Content/images/The_Content_Logo.png" height="35" />
+                    </a>
+                </div>
+                <!--logo end-->
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="" href="@Url.Action("MagazineNews", "News", new {id = Request.Cookies["MagazineId"].Value})">
+                            <i class="icon_house_alt"></i>
+                            <span>Panel</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_desktop"></i>
+                            <span>Mi Contenido</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor"))
+                            {
+                                <li><a class="" href="@Url.Action("MyNews", "News")">Art&iacute;culos</a></li>
+                                <li><a class="" href="@Url.Action("Create", "News")">Crear art&iacute;culo</a></li>
+                                <li><a class="" href="@Url.Action("Index", "Categories")">Categor&iacute;as</a></li>
+                                <li><a class="" href="@Url.Action("Create", "Categories")">Crear categor&iacute;a</a></li>
+                                <li><a class="" href="@Url.Action("NewsStatistics", "News")">Estad&iacute;sticas</a></li>
+                                <li><a class="" href="@Url.Action("Trends", "Admin")">Tendencias</a></li>
+                                <li><a class="" href="@Url.Action("Index", "Clone")">Comprar contenido</a></li>
+                            }
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li><a class="" href="@Url.Action("ListOfNews", "Influencer")">Compartir en redes</a></li>
+                            }
+                        </ul>
+                    </li>
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor"))
+                    {
+                        <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="icon_documents_alt"></i>
+                                <span>Mi Sitio</span>
+                                <span class="menu-arrow arrow_carrot-right"></span>
+                            </a>
+                            <ul class="sub">
+                                <li><a class="" href="@Url.Action("Index", "Sliders")">Slider</a></li>
+                                <li><a class="" href="@Url.Action("Index", "AdCategories")">Campa&ntilde;as</a></li>
+                                <li><a class="" href="@Url.Action("Index", "Galeries")">Galer&iacute;as</a></li>
+                                <li><a class="" href="@Url.Action("Index", "KeyPoint")">KeyPoints</a></li>
+                                <li><a class="" href="@Url.Action("Index", "ItemLists")">Listas</a></li>
+                                <li><a class="" href="@Url.Action("Index", "Quizs")">Encuestas</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="icon_piechart"></i>
+                                <span>Reporteo</span>
+                                <span class="menu-arrow arrow_carrot-right"></span>
+                            </a>
+                            <ul class="sub">
+                                <li><a class="" href="@Url.Action("Index", "Reports")">Reportes</a></li>
+                                <li><a class="" href="@Url.Action("Create", "Reports")">Crear reporte</a></li>
+                                <li><a class="" href="@Url.Action("Index", "Media")">Medios</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="icon_contacts_alt"></i>
+                                <span>Mi Equipo</span>
+                                <span class="menu-arrow arrow_carrot-right"></span>
+                            </a>
+                            <ul class="sub">
+                                <li><a class="" href="@Url.Action("GetMyInfluencers", "Influencer")">Influencers</a></li>
+                                <li><a class="" href="@Url.Action("Register", "Admin")"><span>Invitar miembro</span></a></li>
+                                <li><a class="" href="@Url.Action("GetMyEditors", "Influencer")">Editores</a></li>
+                                <li><a class="" href="@Url.Action("TopHundred", "Influencer")"><span>Top 100 Influencers</span></a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+        </section>
+        <!--main content end-->
+    </section>
+    @RenderSection("ScriptsIframe", false)
+    @RenderSection("DataTable", false)
+    <script type="text/javascript">
+
+        $(function () {
+            $('.datetimepicker').datetimepicker({
+                format: 'DD/MM/YYYY hh:mm:ss A',
+            });
+        });
+
+        $('.metatags').tagsInput({ width: 'auto' });
+
+        var timeOut;
+
+        function ShowAlert(message, classes) {
+            var alertsContainer = $("#AlertsContainer");
+            if (alertsContainer.is(':animated')) {
+                return;
+            }
+            alertsContainer.css('height', 'auto').css('opacity', '1').css('font-weight', '400');
+            alertsContainer.html('<div id="TheAlert" class="alert" style="height:auto !important;"></div>');
+
+            var theAlert = $("#TheAlert");
+            theAlert.html("<button class='close' data-dismiss='alert'>&times;</button><p>" + message + "</p>");
+            theAlert.addClass(classes);
+
+            if (alertsContainer.is(':animated')) {
+                return;
+            }
+            if (timeOut != null) {
+                return;
+            }
+            timeOut = null;
+            timeOut = setTimeout(FadeAlerts, 2000);
+        }
+
+        function FadeAlerts() {
+            var alertsContainer = $("#AlertsContainer");
+            alertsContainer.stop(true, true).animate({ height: 0, opacity: 0 }, 400, function () {
+                alertsContainer.html("");
+                timeOut = null;
+            });
+        }
+
+        @{
+        if (TempData[Configuration.MessageMagicString] != null)
+        {
+            <text> ShowAlert("@Html.Raw(TempData[Configuration.MessageMagicString].ToString())", "@Html.Raw(TempData[Configuration.AlertMagicString].ToString())"); </text>
+        }
+    }
+
+        $(function () {
+            var validationErrors = $(".validation-summary-errors");
+            validationErrors.addClass('alert alert-danger');
+            validationErrors.prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+        });
+    </script>
+    @RenderSection("ExtraScript", false)
+
+
+</body>
+</html>

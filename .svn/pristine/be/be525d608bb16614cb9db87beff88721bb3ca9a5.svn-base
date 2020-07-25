@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Dal.Models.UserMagazine>
+@{
+    ViewBag.Title = "Editores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editores</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Revista
+        </th>
+        <th>
+            Editor
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Magazine.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        Acciones <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Editar", "Edit", new { id = item.UserMagazineId })</li>
+                        <li>@Html.ActionLink("Detalles", "Details", new { id = item.UserMagazineId })</li>
+                        <li>@Html.ActionLink("eliminar", "Delete", new { id = item.UserMagazineId })</li>
+
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

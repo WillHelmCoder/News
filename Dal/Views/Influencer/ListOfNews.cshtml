@@ -1,0 +1,82 @@
+﻿@using Microsoft.Ajax.Utilities
+@model List<Dal.Models.News>
+@{
+
+    ViewBag.Title = "Compartir en redes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-lg-8 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Compartir art&iacute;culos
+                </h3>
+            </div>
+            <table class="table-responsive table-striped table-condensed table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Fecha</th>
+                        <th class="text-right">
+                            Opciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var news in Model)
+                    {
+                        var tempDomain = news.Category.Magazine.Domain;
+                        var domain = "";
+                        if (!String.IsNullOrEmpty(tempDomain))
+                        {
+                            if (tempDomain.Substring(tempDomain.Length - 1, 1).Contains('/'))
+                            {
+                                domain = tempDomain.Remove(tempDomain.Length - 1, 1).ToString();
+                            }
+                        }
+                        <tr>
+                            <td>
+                                <p>@news.Title </p>
+                            </td>
+                            <td>
+                                <p>@news.CreationDate.ToString("dd'/'MM'/'yyyy") </p>
+                            </td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Compartir en <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu text-center">
+                                        <li>
+                                            <a target="_blank" href="http://www.facebook.com/sharer.php?u=@domain/noticia/@news.NewsId/fb/@ViewBag.UserId.UserId">
+                                                <i class="fa fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:var dir='@domain/noticia/@news.NewsId/tw/@ViewBag.UserId.UserId';var tit=window.document.title;var tit2=encodeURIComponent(tit);window.location.href=('http://twitter.com/?status='+tit2+'%20'+dir+'');">
+                                                <i class="fa fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="https://plus.google.com/share?url=@domain/noticia/@news.NewsId/gp/@ViewBag.UserId.UserId">
+                                                <i class="fa fa-google-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="https://www.linkedin.com/cws/share?url=@domain/noticia/@news.NewsId/li/@ViewBag.UserId.UserId">
+                                                <i class="fa fa-linkedin">
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

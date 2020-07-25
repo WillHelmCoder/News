@@ -1,0 +1,52 @@
+﻿@model Dal.Models.News
+
+@{
+    ViewBag.Title = "Detalle de artículo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Detalle de art&iacute;culo</h2>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Contenido
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        Categoría
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Category.Name)
+                    </dd>
+                    <dt>
+                        Título
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    <dt>
+                        Descripción
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt>
+                        Contenido
+                    </dt>
+                    <dd>
+                        @Html.Raw(Model.Body)
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                <p>
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.NewsId }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Regresar", "MagazineNews", new { id = Model.Category.MagazineId }, new { @class = "btn btn-default pull-right" })
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

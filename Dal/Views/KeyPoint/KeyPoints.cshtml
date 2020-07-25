@@ -1,0 +1,26 @@
+﻿@model KeyPointsContainer
+@{
+    ViewBag.Title = "Ver keypoint";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";}
+
+
+<div class="row">
+    <div class="col-md-7 col-lg-7 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    KeyPoints
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>Elige el keypoint que quieras editar y modifica sus datos en la seccion de la izquierda.</p>
+                <div class="row margin-top20">
+                    @foreach (var item in Model.KeyPoints)
+                    {
+                        <div class="col-md-4 text-center SelectKeypoint" id="@item.KeyPointId" data-title="@item.Title" data-desc="@item.Description" data-order="@item.Order" data-url="@item.Url" data-img="@item.MainImage" data-img2="@item.SecondaryImage"><img src="/Content/data/@item.MainImage" alt="@item.Title" class="keyPointImg" /><div class="text-center"><h3>@item.Title</h3><p>@item.Description</p></div></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

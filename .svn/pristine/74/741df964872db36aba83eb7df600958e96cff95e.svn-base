@@ -1,0 +1,37 @@
+﻿@model Dal.Models.AdCategory
+
+@{
+    ViewBag.Title = "Eliminar campaña";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>
+    Eliminar campa&ntilde;a:
+    <strong>
+        @Model.Name
+    </strong>
+</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de confirmar la siguiente operaci&oacute;n
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Una vez confirmada, esta operaci&oacute;n no podr&aacute; ser deshecha
+                </p>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <button type="submit" class="btn btn-danger pull-right">Confirmar</button>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿@model Dal.Models.News
+@{
+    ViewBag.Title = "Eliminar artículo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Eliminar art&iacute;culo</h2>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                ¿Seguro que desea eliminar el art&iacute;culo?
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        Categoría
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Category.Name)
+                    </dd>
+                    <dt>
+                        Título
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    <dt>
+                        Descripción
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <br />
+                    <dt>
+                        Contenido
+                    </dt>
+                    <dd>
+                        @Html.Raw(Model.Body)
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                @Html.ActionLink("Cancelar", "MagazineNews", new { id = Model.Category.MagazineId }, new { @class = "btn btn-default pull-right" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

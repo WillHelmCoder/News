@@ -1,0 +1,50 @@
+﻿@model List<Dal.Models.Slide>
+@{
+    ViewBag.Title = "EditOrder";
+    var count = ViewBag.OrderCount;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+    @using (Html.BeginForm())
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Orden de los slides
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>Elige el orden en que prefieres que tus slides aparescan en tu pagina. Se mostraran de menor a mayor.</p>
+                @Html.ValidationSummary(true)
+                <table class="table table-hover table-bordered editable-sample" id="editable-sample">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Orden</th>
+                        </tr>
+                    </thead>
+                    <tbody id="slidesAdded">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th>@item.News.Title</th>
+                                <th>
+                                    <input name="order[]" value="@item.Order" class="form-control"/>
+                                    <input name="slideId[]" value="@item.SlideId" class="form-control" type="hidden" />
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="newsIdContainer">
+                    <input type="hidden" name="SliderId" value="@ViewBag.SliderId" />
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Guardar" class="btn btn-success pull-right" />                <div class="clearfix"></div>
+            </div>
+        </div>
+    }
+</div>

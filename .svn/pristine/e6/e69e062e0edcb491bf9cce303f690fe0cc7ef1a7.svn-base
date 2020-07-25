@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Dal.Models.News>
+
+@{
+    ViewBag.Title = "Mis artículos";
+    Layout = "~/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<h2>Mis art&iacute;culos (@Model.Count())</h2>
+
+<p>
+    @Html.ActionLink("Crear nueva", "Create", new { id = ViewBag.MagazineId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Categor&iacute;
+        </th>
+        <th>
+            Título
+        </th>
+        <th class="text-right">
+            Opciones
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        Acciones <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Editar", "Edit", new { id = item.NewsId })</li>
+                        <li>@Html.ActionLink("Detalles", "Details", new { id = item.NewsId }) </li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.NewsId })</li>
+                        <li><a href="/influencer/Counter/@item.NewsId">Visitas</a></li>
+                        <li>@Html.ActionLink("Visitar por influencer", "CounterByInfluencer", new { id = item.NewsId })</li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+

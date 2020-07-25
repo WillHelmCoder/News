@@ -1,0 +1,41 @@
+﻿@model News.Models.GroupNewsModel
+@{
+    ViewBag.Title = "Counter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h2>Noticias</h2>
+</div>
+
+<div class="container row">
+    <table class="table table-condensed table-responsive table-hover">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th><img src="~/Content/images/facebook_32.png" /></th>
+                <th><img src="~/Content/images/twitter_32.png" /></th>
+                <th><img src="~/Content/images/googleplus_32.png" /></th>
+                <th><img src="~/Content/images/linkedin_32.png" /></th>
+                <th>Público</th>
+                <th>Total</th>
+            </tr>
+
+        </thead>
+        <tbody>
+           
+                <tr>
+                    <td>@Model.Title</td>
+                    <td>@Model.Facebook</td>
+                    <td>@Model.Twitter</td>
+                    <td>@Model.Google</td>
+                    <td>@Model.LinkedIn</td>
+                    <td>@Model.Public</td>
+                    <td>@Model.Count</td>
+                </tr>
+           
+
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,65 @@
+﻿@using System.Web.UI.WebControls
+@model Dal.Models.ContactModel
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+<div class="wrapper">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contactleft">
+                    <div class="col-md-12">
+                        <div class="im-centered">
+                            @using (Html.BeginForm())
+                            {
+                                <div class="form-group">
+
+                                    <h2 id="contactanos">Contáctanos</h2> <br />
+                                    <h6 id="contactanos">Campos Requeridos*</h6> <br /><br />
+                                    <div class="input-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group">
+                                                @Html.LabelFor(model => model.Name, "Nombre*", new { @class = "pull-left" })
+                                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control width-100", @placeholder = "Nombre" })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                @Html.LabelFor(model => model.Email, "Email*", new { @class = "pull-left" })
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control width-100", @placeholder = "Email" })
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                                @* Editar form  *@
+                                                @Html.LabelFor(model => model.Comments, "Mensaje*", new { @classs = "pull-left" })
+                                                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control width-100" })
+                                                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                                <input type="submit" value="Enviar" class="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contactleft">
+                    <div class="col-md-12">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

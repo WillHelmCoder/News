@@ -1,0 +1,99 @@
+﻿@model List<Dal.Models.News>
+@{
+    ViewBag.Title = "Buscarporfecha";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+@section References
+{
+    <meta name="Title" content="¡Bienvenidos a Expose.MX! Información local con impacto global.">
+    <meta name="description" content="Somos un medio independiente, con el objetivo de informar y difundir contenidos positivos. Tenemos una gran pasión por la innovación y el emprendimiento." />
+    <meta name="keywords" content="Expose.Mx, información, informar, emprendimiento, contenidos" />
+}
+
+
+<section class="content">
+
+    <!-- BEGIN .wrapper -->
+    <div class="wrapper">
+
+
+      
+
+        <div class="main-content has-sidebar">
+          
+                    <!-- END .ot-slider -->
+                
+
+            <!-- BEGIN .left-content -->
+            <div class="left-content">
+
+                <!-- BEGIN .home-block -->
+                <div class="home-block">
+                    <div class="main-title">
+                        @*<a href="#" class="right button">View More Posts</a>*@
+                        <h1>Últimas noticias</h1>
+                        <h2 class="h2index"><span>Noticias más recientes de todas las categorías</span></h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN .article-list-block -->
+                            <div class="article-list-block">
+                                
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="item">
+                                            <div class="item-header">
+                                                <a href="/noticia/@item.NewsId/@item.Permalink">
+                                                    <figure>
+                                                        <div class="img-container">
+                                                            <img src="http://www.expose.mx//Content/data/@item.Image" alt="@item.Title" />
+                                                        </div>
+
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                            <div class="item-content">
+                                                <div class="content-category">
+                                                    <a href="~/categoria/@item.CategoryId/@item.Category.Name.Replace(' ', '-')" class="bluecolor" >@item.Category.Name</a>
+                                                </div>
+                                                <h3><a href="/noticia/@item.NewsId/@item.Permalink"> @item.Title</a></h3>
+                                                <!-- <div class="ot-star-rating">
+                                                         <span style="width: 100%;" class=""><strong class="rating">5</strong> out of 5</span>
+                                                         <strong>Rating: 5 out of 5 stars</strong>
+                                                     </div> -->
+                                                <p>@item.Description</p>
+                                                <a href="/noticia/@item.NewsId/@item.Permalink" class="read-more-link">Leer Más<i class="fa fa-angle-double-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+                        <!-- END .article-list-block -->
+                    </div>
+
+                    <!-- END .home-block -->
+                </div>
+
+               
+
+             
+
+                <!-- END .left-content -->
+            </div>
+
+            <!-- BEGIN #sidebar -->
+            @{Html.RenderAction("_LastNews");}
+
+
+        </div>
+
+        <!-- END .wrapper -->
+    </div>
+
+    <!-- BEGIN .content -->
+</section>
+

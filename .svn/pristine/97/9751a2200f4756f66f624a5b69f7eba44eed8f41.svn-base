@@ -1,0 +1,42 @@
+﻿@model List<News.Models.GroupNewsModel>
+@{
+    ViewBag.Title = "CounterByInfluencer";
+    Layout = "~/Views/Shared/_Layoutadmin.cshtml";
+}
+
+
+<div class="text-center">
+    <h2>Noticia - @ViewBag.NewsTitle </h2>
+</div>
+
+<div class="container row">
+    <table class="table table-condensed table-responsive table-hover">
+        <thead>
+            <tr>
+                <th>Influencer</th>
+                <th><img src="~/Content/images/facebook_32.png" /></th>
+                <th><img src="~/Content/images/twitter_32.png" /></th>
+                <th><img src="~/Content/images/googleplus_32.png" /></th>
+                <th><img src="~/Content/images/linkedin_32.png" /></th>
+                <th>Total</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Facebook</td>
+                    <td>@item.Twitter</td>
+                    <td>@item.Google</td>
+                    <td>@item.LinkedIn</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+</div>

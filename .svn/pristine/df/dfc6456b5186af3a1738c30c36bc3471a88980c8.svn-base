@@ -1,0 +1,180 @@
+﻿@model User
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Editar usuario</h2>
+<div class="container">
+    <div class="col-md-8 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-centered">
+                        <div class="row">
+                            <label>Nombre:</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <label>Correo:</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-centered">
+                        <div class="col-md-6">
+                            <a href="#" class="thumbnail">
+                                <div id="dragandrophandler">
+                                    <img src="/Content/data/poster_2_up-150x150.jpg" alt="..." id="ImageProfile">
+                                </div>
+                            </a>
+                            <p>Arrastra aqui tu imagen.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p id="replace"><small>La imagen que elijas se cambiara automaticamente.</small></p>
+                            <div id="bar">
+                            </div>
+                            <div id="status1"></div>
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="/account/EditUser" class="btn btn-primary">Guardar cambios</a>
+        <a href="/account/Perfil" class="btn btn-danger">Regresar</a>
+    </div>
+</div>
+<script>
+    function sendFileToServer(formData, status) {
+        var uploadURL = '@Url.Action("SaveImageProfile", "Account")'; //Upload URL
+        var extraData = {}; //Extra Data.
+        var jqXHR = $.ajax({
+            xhr: function () {
+                var xhrobj = $.ajaxSettings.xhr();
+                if (xhrobj.upload) {
+                    xhrobj.upload.addEventListener('progress', function (event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position;
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        }
+                        //Set progress
+                        status.setProgress(percent);
+                    }, false);
+                }
+                return xhrobj;
+            },
+            url: uploadURL,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            success: function (data) {
+                status.setProgress(100);
+                $("#ImageProfile").replaceWith("<img src='/Content/data/" + data.ImageCode + "' alt='...' id='ImageProfile'>");
+                $("#status1").replaceWith(" <div id='status1'>Imagen subida con exito.</div>");
+            }
+        });
+
+        status.setAbort(jqXHR);
+    }
+
+    var rowCount = 0;
+    function createStatusbar(obj) {
+        rowCount++;
+        var row = "odd";
+        if (rowCount % 2 == 0) row = "even";
+        this.statusbar = $("<div class='statusbar " + row + "'></div>");
+        this.filename = $("<div class='filename'></div>").appendTo(this.statusbar);
+        this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
+        this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
+        this.abort = $("<div class='abort'>Abort</div>").appendTo(this.statusbar);
+        $("#replace").replaceWith(this.statusbar);
+
+        this.setFileNameSize = function (name, size) {
+            var sizeStr = "";
+            var sizeKB = size / 1024;
+            if (parseInt(sizeKB) > 1024) {
+                var sizeMB = sizeKB / 1024;
+                sizeStr = sizeMB.toFixed(2) + " MB";
+            }
+            else {
+                sizeStr = sizeKB.toFixed(2) + " KB";
+            }
+
+            this.filename.html(name);
+            this.size.html(sizeStr);
+        }
+        this.setProgress = function (progress) {
+            var progressBarWidth = progress * this.progressBar.width() / 100;
+            this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+            if (parseInt(progress) >= 100) {
+                this.abort.hide();
+            }
+        }
+        this.setAbort = function (jqxhr) {
+            var sb = this.statusbar;
+            this.abort.click(function () {
+                jqxhr.abort();
+                sb.hide();
+            });
+        }
+    }
+    function handleFileUpload(files, obj) {
+        for (var i = 0; i < files.length; i++) {
+            var fd = new FormData();
+            fd.append('file', files[i]);
+
+            var status = new createStatusbar(obj); //Using this we can set progress.
+            status.setFileNameSize(files[i].name, files[i].size);
+            sendFileToServer(fd, status);
+
+        }
+    }
+    $(document).ready(function () {
+        var obj = $("#dragandrophandler");
+        obj.on('dragenter', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+        });
+        obj.on('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        obj.on('drop', function (e) {
+
+            e.preventDefault();
+            var files = e.originalEvent.dataTransfer.files;
+
+            //We need to send dropped files to Server
+            handleFileUpload(files, obj);
+        });
+        $(document).on('dragenter', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        $(document).on('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+        });
+        $(document).on('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+    });
+</script>

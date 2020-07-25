@@ -1,0 +1,47 @@
+﻿@model Dal.Models.Slider
+@{
+    ViewBag.Title = "Eliminar elemento de slider";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>
+    Eliminar elemento de slider
+</h2>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de confirmar la siguiente operaci&oacute;n
+                </h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        T&iacute;tulo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.News.Title)
+                    </dd>
+                    <dt>
+                        Posici&oacute;n
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Order)
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <button type="submit" class="btn btn-danger">Confirmar</button>
+                    <span>
+                        <strong>IMPORTANTE:</strong> Una vez confirmada, esta operaci&oacute;n no podr&aacute; ser deshecha
+                    </span>
+                    @Html.ActionLink("Cancelar", "Index", new { id = ViewBag.MagId }, new { @class = "btn btn-default pull-right" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

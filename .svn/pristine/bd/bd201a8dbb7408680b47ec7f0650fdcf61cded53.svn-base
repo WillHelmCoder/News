@@ -1,0 +1,36 @@
+﻿<style type="text/css">
+    .emailImage img {
+        height: auto !important;
+        width: 600px !important;
+        max-width: 100% !important;
+        min-width: 50% !important;
+        margin: auto !important;
+    }
+
+    .emailImage a {
+
+    }
+</style>
+<div style="text-align:center; width:600px; margin:auto !important; height:auto" class="emailimage">
+    <h2>
+        &iexcl;Hola {UserName}!
+    </h2>
+    <p>
+        Has solicitado recuperar tu contrase&ntilde;a.
+    </p>
+    <p>
+        Si desconoces esta operaci&oacute;n haz caso omiso a este correo electr&oacute;nico.
+    </p>
+    <p>
+        Para continuar con el proceso de recuperaci&oacute; da click en el siguiente enlace:
+    </p>
+    <br /><br />
+    <p>
+        <a href="{Link}" target="_blank" style="text-decoration:none;">
+            <div style="background-color:#092d49 !important; color:white !important; height:35px; width:250px; margin:auto !important; line-height:35px; text-align:center !important;">
+                CAMBIAR CONTRASE&Ntilde;A
+            </div>
+        </a>
+    </p>
+
+</div>

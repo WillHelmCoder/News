@@ -1,0 +1,86 @@
+﻿@model Dal.Models.ReportViewModel
+@{
+    ViewBag.Title = "Crear reporte";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Crear reporte</h2>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de llenar correctamente los campos requeridos
+                </h3>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, "Titulo", htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MediaId, "Medio", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("MediaId", null, htmlAttributes: new { @class = "form-control" })
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.MediaId, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsPositive, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsPositive)
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.IsPositive, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsPaid, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsPaid)
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.IsPaid, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Impact, htmlAttributes: new { @class = "control-label" })
+                        <select name="Impact" class="form-control">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.Impact, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+                        <textarea name="Comments" rows="3" cols="12" class="form-control" placeholder="Comentarios"></textarea>
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Crear" class="btn btn-success" />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-right" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

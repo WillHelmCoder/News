@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Mi primer noticia";
+    Layout = "~/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<div class="text-center text-vertical-center" style="padding: 15% 0">
+    <h1><strong>Oops!</strong></h1>
+    <h2>No cuentas con ninguna noticia a&uacute;n. <br />Da click a continuaci&oacute;n para publicar tu primera noticia.</h2>
+    <br />
+    @Html.ActionLink("Crear mi primera noticia", "Create", "News", null, new { @id = ViewBag.MagazineId, @class = "btn btn-primary btn-lg" })
+</div>
+

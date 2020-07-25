@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<urlset xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>Http://cache.news</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66770/10-tips-para-invertir-exitosamente-en-bolsa</loc>
+    <changefreq>never</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66769/bodegas-entrevez-pasion-por-el-arte-del-vino</loc>
+    <changefreq>never</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66768/10-vinos-geniales-de-200-pesos-o-menos-reloaded</loc>
+    <changefreq>never</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66767/tren</loc>
+    <changefreq>never</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66762/half-bike-un-nuevo-tipo-de-vehiculo</loc>
+    <changefreq>never</changefreq>
+  </url>
+  <url>
+    <loc>Http://cache.news/noticia/66761/alianza-gus-y-wineux-hacemos-tu-vida-mas-facil</loc>
+    <changefreq>never</changefreq>
+  </url>
+</urlset>

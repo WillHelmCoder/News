@@ -1,0 +1,85 @@
+﻿@model Dal.Models.Report
+@{
+    ViewBag.Title = "Eliminar reporte";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar reporte</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de confirmar la siguiente operaci&oacute;n
+                </h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    @*<dt>
+                        Art&iacute;culo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.News.Title)
+                    </dd>
+                    <br />*@
+                    <dt>
+                        Positivo
+                    </dt>
+                    <dd>
+                        @if (Model.IsPositive == true)
+                        { <i class="icon_box-checked"></i> }
+                        else
+                        { <i class="icon_box-empty"></i> }
+                    </dd>
+
+                    <dt>
+                        Pagado
+                    </dt>
+                    <dd>
+                        @if (Model.IsPaid == true)
+                        { <i class="icon_box-checked"></i> }
+                        else
+                        { <i class="icon_box-empty"></i> }
+                    </dd>
+                    
+                    <dt>
+                        Impacto
+                    </dt>
+                    <dd>
+                        @{
+                            string width = (Model.Impact * 10).ToString();
+                            int left = 100 - Int32.Parse(width);
+                            string value = left.ToString();
+                        }
+                        <div class="progress" style="width:50%">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="@Model.Impact" aria-valuemin="0" aria-valuemax="10" style="width: @width%;">
+                                <strong>@Model.Impact</strong>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width:@value%">
+                                <strong>@(left / 10)</strong>
+                            </div>
+                        </div>
+                    </dd>
+
+                    <dt>
+                        Comentarios
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comments)
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <button type="submit" class="btn btn-danger">Confirmar</button>
+                    <span>
+                        <strong>IMPORTANTE:</strong> Una vez confirmada, esta operaci&oacute;n no podr&aacute; ser deshecha
+                    </span>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default pull-right" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

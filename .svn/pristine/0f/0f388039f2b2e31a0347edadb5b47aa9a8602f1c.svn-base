@@ -1,0 +1,39 @@
+﻿@model Dal.Models.GroupNewsModel
+@{
+    ViewBag.Title = "Estadísticas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Estad&iacute;sticas de @Model.Title</h2>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12 col-lg-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Contenido
+            </div>
+            <table class="table table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center"><img src="~/Content/images/facebook_32.png" /></th>
+                        <th class="text-center"><img src="~/Content/images/twitter_32.png" /></th>
+                        <th class="text-center"><img src="~/Content/images/googleplus_32.png" /></th>
+                        <th class="text-center"><img src="~/Content/images/linkedin_32.png" /></th>
+                        <th class="text-center">Público</th>
+                        <th class="text-center">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">@Model.Facebook</td>
+                        <td class="text-center">@Model.Twitter</td>
+                        <td class="text-center">@Model.Google</td>
+                        <td class="text-center">@Model.LinkedIn</td>
+                        <td class="text-center">@Model.Public</td>
+                        <td class="text-center">@Model.Count</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

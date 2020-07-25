@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Dal.Models.Slider>
+
+@{
+    ViewBag.Title = "Mi slider";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Mi slider</h2>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @Html.ActionLink("Agregar", "CreateSlider", new { id = ViewBag.MagazineId }, new { @class = "btn btn-primary" })
+                </h3>
+            </div>
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-hover table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Título")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Guid")
+                        </th>
+                        <th class="text-right">
+                            Opciones
+                        </th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sGuid)
+                            </td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        Opciones <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("Ver slider", "Preview", new { id = item.SliderId })</li>
+                                        <li>@Html.ActionLink("Agregar elementos", "Create", new { id = item.SliderId })</li>
+                                        <li>@Html.ActionLink("Editar orden", "EditOrder", new { id = item.SliderId })</li>
+                                        <li>@Html.ActionLink("Eliminar", "Delete", new { id = item.SliderId })</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="panel-body">
+                    Lo sentimos, no haz creado ning&uacute;n a&uacute;n. Te recomendamos crear uno dando click <a href="@Url.Action("Create")">AQU&Iacute;</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

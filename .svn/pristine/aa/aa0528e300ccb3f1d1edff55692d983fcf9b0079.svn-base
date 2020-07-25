@@ -1,0 +1,71 @@
+﻿@model Dal.Models.Data
+
+@{
+    ViewBag.Title = "Eliminar dato";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar dato</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Favor de confirmar la siguiente operaci&oacute;n
+        </h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayName("Título")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Descripción")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Orden")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Order)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Categoría padre")
+            </dt>
+
+            <dd>
+                @if (!Model.DataParentId.HasValue)
+                {
+                    <i class="fa fa-star"></i>
+                }
+                else
+                {
+                    @Model.DataParentId
+                }
+            </dd>
+
+        </dl>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-danger">Confirmar</button>
+            <span>
+                 <strong>IMPORTANTE:</strong> Una vez confirmada, esta operaci&oacute;n no podr&aacute; ser deshecha
+            </span>
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default pull-right" })
+        </div>
+    }
+</div>

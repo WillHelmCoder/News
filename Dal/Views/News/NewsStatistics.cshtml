@@ -1,0 +1,58 @@
+﻿@model List<Dal.Models.GroupNewsModel>
+@{
+    ViewBag.Title = "Mis estadísticas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Mis estad&iacute;sticas</h2>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Contenido
+            </div>
+            <table class="table table-condensed table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            T&iacute;tulo
+                        </th>
+                        <th width="100">
+                            <i class="fa fa-facebook"></i>
+                        </th>
+                        <th width="100">
+                            <i class="fa fa-twitter"></i>
+                        </th>
+                        <th width="100">
+                            <i class="fa fa-google-plus"></i>
+                        </th>
+                        <th width="100">
+                            <i class="fa fa-linkedin"></i>
+                        </th>
+                        <th>
+                            P&uacute;blico/Directo
+                        </th>
+                        <th class="text-right">
+                            TOTAL
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.Facebook</td>
+                            <td>@item.Twitter</td>
+                            <td>@item.Google</td>
+                            <td>@item.LinkedIn</td>
+                            <td>@item.Public</td>
+                            <td class="text-right">@item.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

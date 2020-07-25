@@ -1,0 +1,81 @@
+﻿@model Dal.Models.KindOfQuestionViewModel
+
+@{
+    ViewBag.Title = "OptionDetails";
+}
+
+<h2>Detalles de la opción</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-hover table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayName("Descripción")
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.OptionsList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                Acciones <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Editar", "OptionEdit", new { id = item.OptionId })</li>
+                                <li>@Html.ActionLink("Detalles", "OptionDetails", new { id = item.OptionId })</li>
+                                <li>@Html.ActionLink("Eliminar", "OptionDelete", new { id = item.OptionId })</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Detalles de la encuesta
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Descripci&oacute;n
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt>
+                            Valor
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Value)
+                        </dd>
+                        <dt>
+                            Fecha de creaci&oacute;n
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CreationDate)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

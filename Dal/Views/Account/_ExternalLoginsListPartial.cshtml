@@ -1,0 +1,24 @@
+﻿@model ICollection<AuthenticationClientData>
+
+@if (Model.Count == 0)
+{
+    <div class="message-info">
+        <p>Login externo no disponible</p>
+    </div>
+}
+else
+{
+    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @*@Html.AntiForgeryToken()*@
+        <fieldset id="socialLoginList" style="text-align:center;">
+            <p>
+                @foreach (AuthenticationClientData p in Model)
+                {
+                    <button type="submit" class="btn btn-facebook"  name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your account">@p.AuthenticationClient.ProviderName</button>
+                    @*<button type="submit" class="btn btn-primary btn-lg" data-animation="fadeInUp" data-animation-delay="1000" name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your @p.DisplayName account"><i class="fa fa-facebook" style="margin:5px;"></i> Comenzar</button>*@
+                }
+            </p>
+        </fieldset>
+    }
+}

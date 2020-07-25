@@ -1,0 +1,35 @@
+﻿@model Dal.Models.Slider
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Slider</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.News.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.News.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.SliderId }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Cancelar", "Index", new { @class = "btn btn-default" })
+</p>

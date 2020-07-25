@@ -1,0 +1,39 @@
+﻿@model GaleryImageViewModel
+@{
+    ViewBag.Title = "Eliminar imagen de galería";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar imagen de galer&iacute;a</h2>
+
+<div class="row">
+    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Favor de confirmar
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="panel-body">
+                    <dl>
+                        <dt>
+                            Imagen
+                        </dt>
+                        <dd>
+                            <img src="~/content/data/@Model.Image.Code" height="250" />
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-footer">
+                    @Html.HiddenFor(model => model.GaleryId)
+                    @Html.HiddenFor(model => model.ImageId)
+                    @Html.HiddenFor(model => model.GaleryImageId)
+                    <input type="submit" value="Confirmar" class="btn btn-danger" />
+                    @Html.ActionLink("Cancelar", "Add", new { id = Model.GaleryId }, new { @class = "btn btn-default pull-right" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

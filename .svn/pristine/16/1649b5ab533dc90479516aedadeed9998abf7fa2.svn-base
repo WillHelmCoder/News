@@ -1,0 +1,243 @@
+﻿@model MagazineViewModel
+@{
+    ViewBag.Title = "Crear revista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section ExtraCss
+{
+    <link href="~/Content/AdminLayout/css/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/jquery.filer.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/jquery.cropbox.css" rel="stylesheet" />
+    <style>
+        .input-group-addon {
+            background-color: #edeff5;
+            /*padding: 6px 32px;*/
+            border: none;
+            width: 180px;
+        }
+
+        .imageBox {
+            margin-top: 10px;
+            height: 280px !important;
+        }
+
+        .thumbBoxMagazine {
+            position: absolute;
+            top: 55%;
+            left: 35%;
+            width: 360px;
+            height: 180px;
+            margin-top: -100px;
+            margin-left: -100px;
+            border: 1px solid rgb(102, 102, 102);
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+        }
+    </style>
+}
+
+
+<div class="contact">
+    <div class="row">
+        @using (Html.BeginForm("Create", "Magazines", FormMethod.Post, new { id = "myForm", enctype = "multipart/form-data" }))
+        {
+            <div class="col-lg-4 col-lg-offset-1 col-md-offset-1 col-md-4 col-sm-12 col-xs-12">
+
+                <div class="panel panel-default panel-t">
+                    <div class="panel-heading panel-header-color">
+                        <h4>Crear Revista</h4>
+                    </div>
+                    <div class="panel-body panel-styler">
+
+                        <div class="row">
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                <div class="form-group">
+                                    <label class="control-label">Estado</label>
+                                    @Html.DropDownList("StateId", new SelectList(ViewBag.States, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                <div class="form-group">
+                                    <label class="control-label">Ciudad</label>
+                                    @Html.DropDownList("CityId", new SelectList(ViewBag.Cities, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="validation-message pull-right">
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t pocition">
+
+                                <div class="checkbox">
+                                    @Html.LabelFor(model => model.IsPrivate, htmlAttributes: new { @class = "control-label" })
+                                    @Html.CheckBoxFor(model => model.IsPrivate, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-lg-offset-1 col-md-offset-1 col-md-5 col-sm-12 col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Image, new { @class = "control-label" })
+                                <div class="image-editor" id="image-container">
+                                    <label class="btn btn-primary">
+                                        Seleccionar imagen <input type="file" id="mainImage" style="display: none;">
+                                    </label>
+                                    <div class="imageBox">
+                                        <div class="thumbBox"></div>
+                                        <div class="spinner" style="display: none">Loading...</div>
+                                    </div>
+                                    <input type="hidden" name="MainImage" id="hiddenMainImage" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="fuente-styler">
+                                    <strong class="st-red">¡Nota!</strong> La medida máxima es de 500 X 500px
+                                </p>
+                            </div>
+
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                <label for="titulo">Facebook account</label>
+                                <div class="input-group ">
+                                    <span class="input-group-addon">http://www.facebook.com/</span>
+                                    @Html.EditorFor(model => model.FacebookAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                <label for="titulo">Twitter account</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">https://www.twitter.com/</span>
+                                    @Html.EditorFor(model => model.TwitterAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 letter-styler margin-20-t">
+                                @Html.LabelFor(model => model.GoogleAnlyticsId, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.GoogleAnlyticsId, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.GoogleAnlyticsId, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <input id="submit" type="submit" value="Crear" class="btn btn-primary button-styler" />
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <button type="button" class="btn btn-danger button-styler pull-right">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section ExtraScript
+{
+    <script src="~/Scripts/Cropper.js"></script>
+
+    <script>
+
+        FederalEntityChange();
+
+        function FederalEntityChange() {
+            $("#StateId").change(function () {
+                var id = $(this).val();
+                if (id == null || id == "") return false;
+                GetMunicipalities(id);
+            });
+        }
+
+        function GetMunicipalities(id) {
+            if (id == null || id == "") return false;
+            $("#CityId").html('<option value="">Selecciona tu ciudad</option>');
+            $.get("/api/Magazines/GetCities/" + id, function (data) {
+                $.each(data, function (index, obj) {
+                    $("#CityId").append("<option value=" + obj.CityId + ">" + obj.Name + "</option>");
+                });
+            });
+        }
+
+        var options =
+        {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png'
+        }
+        var cropper;
+        $('#mainImage').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        });
+        $('#myForm').submit(function () {
+
+            var img = cropper.getBlob();
+            var fd = new FormData();
+            fd.append('fname', 'mainImage');
+            fd.append('data', img);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateImages", "Admin")',
+                data: fd,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: (function (data) {
+
+                    $('#hiddenMainImage').val(data.MainImage);
+                })
+            });
+
+            return true;
+        });
+
+    </script>
+}

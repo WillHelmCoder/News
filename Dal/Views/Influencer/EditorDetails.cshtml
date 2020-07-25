@@ -1,0 +1,53 @@
+﻿@model EditorViewModel
+@{
+    ViewBag.Title = "Detalles del editor";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Art&iacute;culos creados por <strong>@Model.Editor.Email</strong></h2>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Ordenados por n&uacute;mero de visitas
+                </h3>
+            </div>
+            @if (Model.News.Count > 0)
+            {
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                T&iacute;tulo
+                            </th>
+                            <th>
+                                Visitas generadas
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.News)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.Count
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="panel-body">
+                    Lo sentimos, no cuentas con editores a&uacute;n. Vuelva m&aacute;s tarde.
+                </div>
+            }
+        </div>
+    </div>
+</div>

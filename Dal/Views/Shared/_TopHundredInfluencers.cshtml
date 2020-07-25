@@ -1,0 +1,45 @@
+﻿@model List<TopInfluencers>
+@{
+    ViewBag.Title = "Top Cien";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Top 100 influencers
+                </h3>
+            </div>
+            <div class="panel-body">
+                Ordenados por numero de visitas
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Correo
+                        </th>
+                        <th>
+                            Visitas generadas
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.User
+                            </td>
+                            <td>
+                                @item.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

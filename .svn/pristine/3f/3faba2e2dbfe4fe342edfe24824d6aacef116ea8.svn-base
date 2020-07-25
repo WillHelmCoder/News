@@ -1,0 +1,375 @@
+﻿@model Dal.Models.MagazineIndexViewModel
+@{
+    ViewBag.Title = "Mis artículos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Mis art&iacute;culos (@Model.News.Count())</h2>
+
+<div class="row">
+    <div class="col-lg-9 col-md-9 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Ordenados por fecha de publicaci&oacute;n
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-inline">
+                    <label for="searchInput">Buscador</label>
+                    <input id="searchInput" class="form-control" placeholder="Comienza a teclear..." data-toggle="tooltip" data-placement="top" title="Solo teclea para filtrar los articulos de la tabla inferior.">
+                </div>
+            </div>
+            <div id="newsTable" style="height:auto;">
+                <table class="table">
+                    <thead class="head">
+                        <tr>
+                            <th>T&iacute;tulo</th>
+                            <th class="hidden-xs hidden-sm">Descripci&oacute;n</th>
+                            <th>Publicado</th>
+                            <th>Visitas</th>
+                            <th class="text-right">
+                                Opciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsItems">
+                        @foreach (var item in Model.News)
+                        {
+                            var tempDomain = item.Category.Magazine.Domain;
+                            var domain = "";
+                            if (!String.IsNullOrEmpty(tempDomain))
+                            {
+                                if (tempDomain.Substring(tempDomain.Length - 1, 1).Contains('/'))
+                                {
+                                    domain = tempDomain.Remove(tempDomain.Length - 1, 1).ToString();
+                                }
+                            }
+
+                            <tr class="news-links">
+                                <td title="Click para ver noticia.">
+                                    <a style="color:#333" target="_blank" href="@domain/noticia/@item.NewsId/@item.Permalink">
+                                        @item.Title
+                                    </a>
+                                </td>
+                                <td class="hidden-xs hidden-sm">
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @item.CreationDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.VisitsCount
+                                </td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                            Opciones
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Edit", "News", new { id = item.NewsId})">Editar</a></li>
+                                            <li><a href="@Url.Action("Delete", "News", new { id = item.NewsId})">Borrar</a></li>
+                                            <li><a href="@Url.Action("ViewNewStatistics", "News", new { id = item.NewsId})">Estadisticas</a></li>
+                                            <li><a onclick="cloneNew('@item.NewsId')" data-toggle="modal" data-target="#newsModal">Clonar</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    @item.Category.Name
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Categor&iacute;as
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="D&aacute; click en una categor&iacute;a para filtrar la tabla de articulos."><button class="btn btn-default btn-xs">?</button></span>
+                </h3>
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                    @foreach (var item in Model.Categories)
+                    {
+                        <tr onclick="revalueInput('@item.Name.ToString()')">
+                            <td style="cursor:pointer">
+                                @item.Name
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*<div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            TOP 10 Influencers <span class="badge pull-right">Visitas</span>
+                        </div>
+                        @if (Model.Top10Influencers.Count != 0)
+                        {
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    @foreach (var item in Model.Top10Influencers)
+                                    {
+                                        <tr>
+                                            <td> @item.User <span class="badge pull-right">@item.Count</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="panel-body">
+                                <strong>@ViewBag.NoInfluencers</strong>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div id="newsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div id="cloneSubmit"></div>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var url = "/api/News/NewsByMagazine/@Model.MagazineId";
+    var cloneNewUrl = "/administrador/clonar-noticia/";
+    var getCatUrl = "/api/News/GetCatByMagazine/";
+    var allMags = @Html.Raw(ViewBag.Magazines);
+    var mags = '';
+    var cats = '';
+
+    function loadNews() {
+
+        $(".head").empty();
+        $('#newsItems').empty();
+
+        $.getJSON(url, function () {
+        }).done(function (data) {
+
+            $('.loading').fadeOut(300);
+            $('.form-inline').show();
+            $('#newsTable').show();
+            $('.head').append(""
+                + "<tr>"
+                    + "<th>Titulo</th>"
+                    + "<th>Descripci&oacute;n</th>"
+                    + "<th>Publicado</th>"
+                    + "<th>Visitas</th>"
+                    + "<th>Opciones</th>"
+                + "</tr>");
+            $.each(data, function (index, item) {
+                $('#newsItems').append(""
+                    + "<tr class='news-links'>"
+                        + "<td title='Click para ver noticia.' >"
+                            + "<a style='color:#333' target='_blank' href='/noticia/" + item.NewsId + '/' + item.Permalink + "' id='title-'" + item.NewsId + "'>"
+                                + item.Title
+                            + "</a>"
+                        + "</td>"
+                        + "<td>"
+                            + item.Description
+                        + "</td>"
+                        + "<td>"
+                            + item.Date
+                        + "</td>"
+                        + "<td>"
+                            + item.Visitas
+                        + "</td>"
+                        + "<td>"
+                            + "<div class='btn-group'>"
+                                + "<button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false'>"
+                                    + "Opciones <span class='caret'></span>"
+                                + "</button>"
+                                + "<ul class='dropdown-menu' role='menu'>"
+                                    + "<li><a href='/administrador/editar-noticia/" + item.NewsId + "'>Editar</a></li>"
+                                    + "<li><a href='/administrador/borrar-noticia/" + item.NewsId + "'>Borrar</a></li>"
+                                    + "<li><a href='/administrador/estadisticas-de-noticia/" + item.NewsId + "'>Estadisticas</a></li>"
+                                    + "<li><a onclick='cloneNew(" + item.NewsId + ")' data-toggle='modal' data-target='#newsModal'>Clonar</a></li>"
+                                + "</ul>"
+                            + "</div>"
+                        + "</td>"
+                        + "<td hidden>"
+                            + item.CategoryName
+                        + "</td>"
+                    + "</tr>"
+                );
+            });
+        }).error(function (err) {
+            alert('No se encontró ninguna noticia.');
+        });
+    }
+
+    function cloneNew(newId) {
+        emptySections();
+
+        $('.modal-title').append("Clonar artículo a:");
+
+        $('.modal-body').empty();
+        $('.modal-body').append(""
+            + "<form class='form'>"
+                + "<div class='form-group'>"
+                    + "<label for='selectcat'>Selecciona la revista</label>"
+                    + "<select  class='form-control' id='selectmag'>"
+                    + "<option>Selecciona una revista </option>"
+                    + mags
+                    + "</select>"
+                + "</div>"
+                + "<div class='form-group'>"
+                    + "<label for='selectprod'>Selecciona la categoría</label>"
+                    + "<select name='catId' class='form-control' id='selectcat'>"
+                    + "</select>"
+                + "</div>"
+                + "<p id='errorMessage' style='color:red'></p>"
+            + "</form>"
+        );
+
+        $("#cloneSubmit").html(""
+            + "<button type='button' class='btn btn-success pull-left' id='sendAjax'>Clonar</button>"
+            + "<input type='hidden' name='newId' id='getId' value='" + newId + "'/>"
+        );
+
+        loadMags();
+    }
+    function loadMags(){
+        $.each(allMags, function(index, obj){
+            $("#selectmag").append("<option class='mag" + obj.MagazineId + "' value='"+ obj.MagazineId +"'>" + obj.Title + "</option>");
+        });
+    }
+    function emptySections(){
+        $('.modal-body').empty();
+        $('.modal-title').empty();
+    }
+    $(document).on("click", "#sendAjax", function () {
+        var newId = $('#getId').val();
+        var catId = $('#selectcat').val();
+
+        $.ajax({
+            url: cloneNewUrl + catId + "/" + newId,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if(data.OK)
+                {
+                    emptySections();
+
+                    $(".modal-title").html(data.Message);
+
+                    $(".modal-body").append("<h3 class='text-center'>Ir a " + data.Model.Url + "</h3>"
+                        + "<p class='text-center'>"
+                             + "Al dar click en editar entrarás al administrador de la revista a la cual fue clonado el artículo"
+                        +"</p>"
+                    );
+
+                    $("#cloneSubmit").empty();
+
+                } else {
+                    $("#errorMessage").html(data.Message);
+                }
+                loadNews();
+            }
+        });
+    });
+        //    $.getJSON(cloneNewUrl + catId + "/" + newId, function () {
+        //    }).done(function (data) {
+
+        //        if(data.OK)
+        //        {
+        //            emptySections();
+
+        //            $(".modal-title").html(data.Message);
+
+        //            $(".modal-body").append("<h3 class='text-center'>Ir a " + data.Model.Url + "</h3>"
+        //                + "<p class='text-center'>"
+        //                     + "Al dar click en editar entrarás al administrador de la revista a la cual fue clonado el artículo"
+        //                +"</p>"
+        //            );
+
+        //            $("#cloneSubmit").empty();
+
+        //        } else {
+        //            $("#errorMessage").html(data.Message);
+        //        }
+
+        //        loadNews();
+        //    });
+        //}).error(function (err) {
+        //    alert(err);
+        //});
+        $(document).on("change", "#selectmag", function () {
+            var MagId = this.value;
+            var getCat = getCatUrl + MagId;
+            $.getJSON(getCat, function () {
+            }).done(function (data) {
+                $('#selectcat')
+                .find('option')
+                .remove()
+                $.each(data, function (index, item) {
+                    $('#selectcat').append(""
+                       + "<option class='mag" + item.CategoryId + "' value='" + item.CategoryId + "'>" + item.Name + "</option>"
+                    );
+                });
+            }).error(function (err) {
+                alert('No se encontró ninguna Categoria.');
+            });
+        });
+        function revalueInput(name) {
+            var a = name.split(" ");
+            search(a);
+        }
+        function search(data) {
+            var jo = $("#newsItems").find("tr");
+            if (this.value == "") {
+                jo.show();
+                return;
+            }
+            jo.hide();
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                    if ($t.is(":contains('" + data[d] + "')")) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+            .show();
+        };
+        $("#searchInput").keyup(function () {
+            var data = this.value.split(" ");
+            search(data);
+        })
+            .focus(function () {
+                this.value = "";
+                $(this).css({
+                    "color": "black"
+                });
+                $(this).unbind('focus');
+            }).css({
+                "color": "#C0C0C0"
+            });
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

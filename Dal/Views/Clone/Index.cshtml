@@ -1,0 +1,343 @@
+﻿@model List<Dal.Models.NearlyNews>
+@{
+    ViewBag.Title = "Comprar contenido";
+    Layout = "~/Views/Shared/_Layoutadmin.cshtml";
+}
+<style>
+    .news-links a {
+        color: white;
+    }
+
+    .margin-20-t {
+        margin-top: 20px;
+    }
+</style>
+<div class="row margin-20-t">
+    <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Art&iacute;culos redactados cerca de tu zona
+                </h3>
+            </div>
+            <div class="panel-body" style="padding:0 !important; border: none; max-height: 50vh; overflow-y: auto;">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <div class="panel panel-default">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@item.MagazineId" aria-expanded="false" aria-controls="@item.MagazineId">
+                                <div class="panel-heading" role="tab" id="heading-@item.MagazineId">
+                                    <h3 class="panel-title">
+                                        @item.MagazineName
+                                        <span class="pull-right">
+                                            <i class="fa fa-caret-down"></i>
+                                        </span>
+                                    </h3>
+                                </div>
+                            </a>
+                            <div id="@item.MagazineId" class="panel-collapse collapse @(i == 1 ? "in" : "")" role="tabpanel" aria-labelledby="heading-@item.MagazineId">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>T&iacute;tulo</th>
+                                            <th>Descripci&oacute;n</th>
+                                            <th>Publicado</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var news in item.NewsList)
+                                        {
+                                            <tr class='news-links'>
+
+                                                <td title='Click para ver noticia.'>
+                                                    <a style='color:#333' href='/noticia/@news.NewsId/@news.Permalink'>
+                                                        @news.Title
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @news.Description
+                                                </td>
+                                                <td>
+                                                    @news.CreationDate
+                                                </td>
+                                                <td>
+                                                    <button class='btn btn-primary btn-xs' onclick='cloneNew(@news.NewsId)' type="button" data-toggle='modal' data-target='#newsModal'>Clonar</button>
+                                                </td>
+                                                <td hidden>
+                                                    @news.Category.Name
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Sitios aliados
+                </h3>
+            </div>
+            <div class="panel-body text-center">
+                Proximamente
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Articulos p&uacute;blicos
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-inline" hidden>
+                    <label for="searchInput">Buscador</label>
+                    <input id="searchInput" class="form-control" placeholder="Buscador">
+                </div>
+                <h4 class="loading text-center">Cargando...</h4>
+            </div>
+            <div class="panel-footer" style="border-radius: 0; background-color: white; max-height:50vh; overflow-y:auto" id="news-table-container" hidden>
+                <table class="table" id="news-table-box">
+                    <thead class="table-head">
+                    </thead>
+                    <tbody id="news-items"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="newsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div id="cloneSubmit"></div>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/scripts/Chart.js"></script>
+<script>
+    var url = "/api/News/NewsByMagazine/@ViewBag.MagazineId";
+    var cloneNewUrl = "/administrador/clonar-noticia/";
+    var getCatUrl = "/api/News/GetCatByMagazine/";
+    var allMags = @Html.Raw(ViewBag.Magazines);
+    var mags = '', cats = '';
+    loadNews();
+
+    function loadNews() {
+        $(".head").empty();
+        $('#news-items').empty();
+
+        $.getJSON(url, function () {
+        }).done(function (data) {
+
+            $('.loading').fadeOut(300);
+            $('.form-inline').removeAttr("hidden");
+            $('#news-table-container').removeAttr("hidden");
+
+            $('.table-head').append(""
+                + "<tr>"
+                    + "<th>Título</th>"
+                    + "<th>Descripción</th>"
+                    + "<th>Publicado</th>"
+                    + "<th>Visitas</th>"
+                    + "<th class='text-right'>Opciones</th>"
+                + "</tr>");
+            $.each(data, function (index, item) {
+                $('#news-items').append(""
+                    + "<tr class='news-links'>"
+                        + "<td title='Click para ver noticia.'>"
+                            + "<a style='color:#333' target='_blank' href='/noticia/" + item.NewsId + '/' + item.Permalink + "' id='title-'" + item.NewsId + "'>"
+                                + item.Title
+                            + "</a>"
+                        + "</td>"
+                        + "<td>"
+                            + item.Description
+                        + "</td>"
+                        + "<td>"
+                            + item.Date
+                        + "</td>"
+                        + "<td>"
+                            + item.Visitas
+                        + "</td>"
+                        + "<td>"
+                            + "<div class='btn-group pull-right'>"
+                                + "<button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false'>"
+                                    + "Opciones <span class='caret'></span>"
+                                + "</button>"
+                                + "<ul class='dropdown-menu' role='menu'>"
+                                    + "<li><a href='/administrador/editar-noticia/" + item.NewsId + "'>Editar</a></li>"
+                                    + "<li><a href='/administrador/borrar-noticia/" + item.NewsId + "'>Borrar</a></li>"
+                                    + "<li><a href='/administrador/estadisticas-de-noticia/" + item.NewsId + "'>Estadisticas</a></li>"
+                                    + "<li><a onclick='cloneNew(" + item.NewsId + ")' data-toggle='modal' data-target='#newsModal'>Clonar</a></li>"
+                                + "</ul>"
+                            + "</div>"
+                        + "</td>"
+                        + "<td hidden>"
+                            + item.CategoryName
+                        + "</td>"
+                    + "</tr>"
+                );
+            });
+        }).error(function (err) {
+            alert('No se encontró ninguna noticia.');
+        });
+    }
+    function cloneNew(newId) {
+        emptySections();
+
+        $('.modal-title').append("Clonar artículo a:");
+
+        $('.modal-body').empty();
+        $('.modal-body').append(""
+            + "<form class='form'>"
+                + "<div class='form-group'>"
+                    + "<label for='selectcat'>Selecciona la revista a la cual deseas clonar el art&iacute;culo</label>"
+                    + "<select  class='form-control' id='selectmag'>"
+                        + "<option value=''>- Seleccionar -</option>"
+                    + mags
+                    + "</select>"
+                + "</div>"
+                + "<div class='form-group'>"
+                    + "<label for='selectprod'>Selecciona la categoría</label>"
+                    + "<select name='catId' class='form-control' id='selectcat'>"
+                        + "<option value=''>- Seleccionar -</option>"
+                    + "</select>"
+                + "</div>"
+                + "<p id='errorMessage' style='color:red'></p>"
+            + "</form>"
+        );
+
+        $("#cloneSubmit").html(""
+            + "<button type='button' class='btn btn-success pull-left' id='sendAjax'>Clonar</button>"
+            + "<input type='hidden' name='newId' id='getId' value='" + newId + "'/>"
+        );
+
+        loadMags();
+    }
+    function loadMags(){
+        $.each(allMags, function(index, obj){
+            $("#selectmag").append("<option class='mag" + obj.MagazineId + "' value='"+ obj.MagazineId +"'>" + obj.Title + "</option>");
+        });
+    }
+    function emptySections(){
+        $('.modal-body').empty();
+        $('.modal-title').empty();
+    }
+    $(document).on("click", "#sendAjax", function () {
+        var newId = $('#getId').val();
+        var catId = $('#selectcat').val();
+
+        $.getJSON(cloneNewUrl + catId + "/" + newId, function () {
+        }).done(function (data) {
+
+            if(data.OK)
+            {
+                emptySections();
+
+                $(".modal-title").html(data.Message);
+
+                $(".modal-body").append("<h3 class='text-center'>Ir a " + data.Model.Url + "</h3>"
+                    + "<p class='text-center'>"
+                         + "Al dar click en editar entrarás al administrador de la revista a la cual fue clonado el artículo"
+                    +"</p>"
+                );
+
+                $("#cloneSubmit").empty();
+
+            } else {
+                $("#errorMessage").html(data.Message)
+            }
+
+            loadNews();
+        });
+    }).error(function (err) {
+        alert(err);
+    });
+    $(document).on("change", "#selectmag", function () {
+        var MagId = this.value;
+        var getCat = getCatUrl + MagId;
+        $.getJSON(getCat, function () {
+        }).done(function (data) {
+            $('#selectcat').removeAttr("disabled");
+
+            $('#selectcat')
+            .find('option')
+            .remove();
+
+            if(data.length <= 0)
+            {
+                $('#selectcat').attr("disabled", true);
+                return;
+            }
+            
+            $.each(data, function (index, item) {
+                $('#selectcat').append(""
+                   + "<option class='mag" + item.CategoryId + "' value='" + item.CategoryId + "'>" + item.Name + "</option>"
+                );
+            });
+        }).error(function (err) {
+            $('#selectcat').attr("disabled", true);
+        });
+    });
+
+    function revalueInput(name)
+    {
+        var a = name.split(" ");
+        search(a);
+    }
+    function search(data){
+        var jo = $("#newsItems").find("tr");
+        if (this.value == "") {
+            jo.show();
+            return;
+        }
+        jo.hide();
+        jo.filter(function (i, v) {
+            var $t = $(this);
+            for (var d = 0; d < data.length; ++d) {
+                if ($t.is(":contains('" + data[d] + "')")) {
+                    return true;
+                }
+            }
+            return false;
+        })
+        .show();
+    };
+    $("#searchInput").keyup(function () {
+        var data = this.value.split(" ");
+        search(data);
+    })
+        .focus(function () {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+</script>

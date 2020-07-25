@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="~/Content/jquery.tagsinput.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.tagsinput.min.js"></script>
+
+<div class="form-group">
+    @Html.Label("Keywords", htmlAttributes: new { @class = "control-label" })
+    @Html.Editor("Keywords", new { htmlAttributes = new { @class = "form-control", @id = "keywords" } })
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#keywords').tagsInput({ width: 'auto' });
+    });
+</script>

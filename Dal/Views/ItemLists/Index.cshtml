@@ -1,0 +1,70 @@
+﻿@model Dal.Models.ListViewModel
+@{
+    ViewBag.Title = "Listas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>
+    Listas (@Model.ItemsList.Count())
+</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary btn-sm" })
+                </h3>
+            </div>
+            @if (Model.ItemsList.Count() > 0)
+            {
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Contenido
+                            </th>
+                            <th class="text-right">
+                                Opciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ItemsList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.Content
+                                </td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                            Opciones <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>@Html.ActionLink("Editar", "Edit", new { id = item.ItemListId })</li>
+                                            @*<li>@Html.ActionLink("Detalles", "Details", new { id = item.ListOfItemsId })</li>*@
+                                            <li>@Html.ActionLink("Eliminar", "Delete", new { id = item.ItemListId })</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="panel-body">
+                    Lo sentimos, no hay medios a&uacute;n. Te recomendamos crear uno dando click <a href="@Url.Action("Create")">aqu&iacute;</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

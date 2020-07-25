@@ -1,0 +1,46 @@
+﻿@model Dal.Models.Quiz
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Detalles de la encuesta
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        T&iacute;tulo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    <dt>
+                        Descripci&oacute;n
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt>
+                        Fecha de creaci&oacute;n
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CreationDate)
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

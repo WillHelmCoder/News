@@ -1,0 +1,32 @@
+﻿@model ValidateUserViewModel
+@{
+    ViewBag.Title = "Validar cuenta";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>Confirma tu cuenta</h1>
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal col-md-12">
+                <br />
+                <div class="col-md-12">
+                    <div id="buttonConfirm" class="form-group">
+                        <input type="submit" value="Activar" class="btn btn-success" />
+                        @Html.HiddenFor(x => x.Code)
+                    </div>
+                    <div id="validation">
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Galery>
+@{
+    ViewBag.Title = "Galerías";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Galer&iacute;as (@Model.Count())</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary" })
+        </h3>
+    </div>
+    @if (Model.Count() != 0)
+    {
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Título")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Descripción")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Alt imagen")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Meta descripción")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Keywords")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Permalink")
+                    </th>
+                    <th class="text-right">
+                        Opciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Alt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MetaDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Keywords)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Permalink)
+                        </td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    Opciones <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Agregar imágenes", "Add", new { id = item.GaleryId })</li>
+                                    <li>@Html.ActionLink("Editar", "Edit", new { id = item.GaleryId })</li>
+                                    <li>@Html.ActionLink("Detalles", "Details", new { id = item.GaleryId }) </li>
+                                    <li>@Html.ActionLink("Eliminar", "Delete", new { id = item.GaleryId })</li>
+                                    @*<li>@Html.ActionLink("Imágenes", "Images", new { id = item.GaleryId })</li>*@
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="panel-body">
+            Lo sentimos, no hay galer&iacute;as a&uacute;n. Te recomendamos crear una dando click <a href="@Url.Action("Create")">AQU&Iacute;</a>
+        </div>
+    }
+</div>

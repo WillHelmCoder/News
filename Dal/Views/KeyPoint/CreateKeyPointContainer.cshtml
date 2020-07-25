@@ -1,0 +1,269 @@
+﻿@model CreateKeyPointContainerModel
+@{
+    ViewBag.Title = "Crear keypoint";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";}
+
+@using (Html.BeginForm("CreateKeyPointContainer", "KeyPoint", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Informacion del contenedor
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KeyPointsContainer, "Nombre de tu seccion", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.KeyPointsContainer.Name, new { htmlAttributes = new { @class = "form-control", @id = "TitleSection", @required = true } })
+                            @Html.ValidationMessageFor(model => model.KeyPointsContainer.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KeyPointsContainer, "Descripcion de tu seccion", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.KeyPointsContainer.Description, new { htmlAttributes = new { @class = "form-control", @id = "TitleDesc", @required = true } })
+                            @Html.ValidationMessageFor(model => model.KeyPointsContainer.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Crear keypoint
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.KeyPoint.Title, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.KeyPoint.Title, new { @class = "form-control", @id = "KeyPointTitle" })
+                                        <span class="validation-message pull-right">
+                                            @Html.ValidationMessageFor(model => model.KeyPoint.Title)
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.KeyPoint.Description, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.KeyPoint.Description, new { @class = "form-control", @id = "KeyPointDesc", @maxlength = 140 })
+                                        <span class="validation-message pull-right">
+                                            @Html.ValidationMessageFor(model => model.KeyPoint.Description)
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.KeyPoint.Order, new {@class = "control-label"})
+                                        @Html.TextBoxFor(model => model.KeyPoint.Order, new {@class = "form-control", @id = "KeyPointOrder", @maxlength = 140})
+                                        <span class="validation-message pull-right">
+                                            @Html.ValidationMessageFor(model => model.KeyPoint.Order)
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.KeyPoint.Url, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.KeyPoint.Url, new { @class = "form-control", @id = "KeyPointUrl", @maxlength = 140 })
+                                        <span class="validation-message pull-right">
+                                            @Html.ValidationMessageFor(model => model.KeyPoint.Url)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.KeyPoint.MainImage, "Imagen principal", new { @class = "control-label" })
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="Imagen no disponible" />
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 300px; max-height: 300px; line-height: 20px;"></div>
+                                            <div>
+                                                <span class="btn btn-primary btn-xs btn-file">
+                                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                                    <input  id="Image" class="default" accept="image/*" type="file" onchange='fileUpload(this)' required/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span class="label label-danger">&#161;IMPORTANTE!</span>
+                                        <span>
+                                            La imagen deber&aacute; pesar menos de 1.6 Mb
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 backgroundImage">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.KeyPoint.SecondaryImage, "Imagen secundaria (No se muestra en vista previa)", new { @class = "control-label" })
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="max-width: 200px; max-height: 150px;">
+                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="Imagen no disponible" />
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                            <div>
+                                                <span class="btn btn-primary btn-xs btn-file">
+                                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                                    <input  id="ImageBackground" class="default" accept="image/*" type="file" onchange='fileUpload(this)' />
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span class="label label-danger">&#161;IMPORTANTE!</span>
+                                        <span>
+                                            La imagen deber&aacute; pesar menos de 1.6 Mb
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12" id="sendToPreview">
+ 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Vista previa
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row" id="headerPreviewKeyPoint"></div>
+                    <div class="row margin-top20" id="previewKeyPoint"></div>
+                    <div class="form-group margin-top50" id="saveKeyPoint"></div>
+                    <div class="hiddenForm"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section DataTable{
+
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+    <script type="text/javascript" src="/Scripts/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/Scripts/data-tables/DT_bootstrap.js"></script>
+    <script src="/Scripts/table-editable.js"></script>
+    <script>
+        var appendCounter = 0;
+        var headerExist = false;
+        var bottomExist = false;
+        var previewExist = false;
+
+        $(document).on('click','.sendPreview', function() {
+            var src=$('.fileupload-preview img').attr("src");
+            var title = $('#KeyPointTitle').val();
+            var description = $('#KeyPointDesc').val();
+            var url = $('#KeyPointUrl').val();
+            var order = $('#KeyPointOrder').val();
+            var header = $('#TitleSection').val();
+            var headerDesc = $('#TitleDesc').val();
+
+            var headerText = $('#headerKeyPointContainer').text();
+            var headerDescText = $('#descriptionKeyPointContainer').text();
+
+
+            var image = "";
+            if(!headerExist && header.length > 0) {
+                
+                var headerContainer = '<div class="col-md-12 col-lg-12 text-center" ><h2 id="headerKeyPointContainer">'+header+'</h2><h4 id="descriptionKeyPointContainer">'+headerDesc+'</h4></div>';
+
+                $('#headerPreviewKeyPoint').append(headerContainer);
+                headerExist = true;
+            }
+
+            if (header != headerText) {
+                $('#headerKeyPointContainer').text(header);
+            }
+
+            if (headerDesc != headerDescText) {
+                $('#descriptionKeyPointContainer').text(headerDesc);
+            }
+
+            if (src != null) {
+                image = '<img src="'+ src +'" class="keyPointImg">';
+
+            }
+           if (title.length > 0 || description.length > 0 || src.length > 0) {
+               var container = '<div class="col-md-4 text-center relative"><i class="fa fa-times-circle fa-2x" data-counter="'+ appendCounter +'" aria-hidden="true"></i>'+image+'<div class="text-center"><h3>'+ title +'</h3><p>'+ description+ '</p></div></div>';
+               $('#previewKeyPoint').append(container);
+
+               var titleInput = '<input type="hidden" name="title[]" class="appended-'+appendCounter+'" value="'+ title +'">';
+               var descInput = '<input type="hidden" name="description[]" class="appended-'+appendCounter+'" value="' + description + '">';
+               var urlInput = '<input type="hidden" name="url[]" class="appended-'+appendCounter+'" value="' + url+ '">';
+               var orderInput = '<input type="hidden" name="order[]" class="appended-'+appendCounter+'" value="' + order+ '">';
+
+               $('.hiddenForm').append(titleInput+descInput+urlInput+orderInput);   
+           }
+
+           if(!bottomExist) {
+               var saveButton = '<div class="col-md-12 col-lg-12 text-center"><button type="submit" class="btn btn-success">Guardar Keypoints</button></div>';
+
+               $('#saveKeyPoint').append(saveButton);
+               bottomExist = true;
+           }
+
+            appendCounter++;
+        });
+
+        //upload file
+        function fileUpload($this) {    
+
+            var formData = new FormData();
+            var name =$($this).attr('id');
+            var files = $this.files;
+            var header = $('#TitleSection').val();
+           
+            if(files.length > 0 && header.length > 0){
+                formData.append("Image",files[0]);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UploadImages", "Admin")',
+                    data: formData,
+                    processData: false, 
+                    contentType: false,
+                    success: function (imageName) {
+
+                        var saveImage = '<input type="hidden" class="appended-'+appendCounter+'" name="' + name + '[]" value="'+imageName.Message+'">';
+                        $('.hiddenForm').append(saveImage);
+
+                        if(!previewExist) {
+                
+                            $('#sendToPreview').append('<input type="button" value="Pasar a vista previa" class="btn btn-primary pull-right sendPreview" />');
+                            previewExist = true;
+                        }
+                    },
+
+                    error: function () {
+                        alert("Whoops something went wrong!");
+                    }
+                });
+            }else{ alert("Necesitas poner un nombre a tu seccion antes de continuar.")}
+
+
+            
+        }
+
+        $(document).on('click', '.fa-times-circle', function() {
+            var counter = $(this).data('counter');
+            $(this).parent().remove();
+            $('.appended-' + counter).remove();
+        });
+    </script>
+}

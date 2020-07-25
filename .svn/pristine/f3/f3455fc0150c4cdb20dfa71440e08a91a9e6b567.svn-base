@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Influencer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Influencer</h2>
+
+<table class="table table-hover" style="width:100%">
+    <tr>
+        <th>Id Influencer</th>
+        <th>Email</th>
+        <th>CreateDate</th>
+        <th>Details</th>
+    </tr>
+@foreach (var news in (ViewBag.Influencers))
+        {
+            <tr>
+        
+
+                <td>@news.UserId</td>
+                <td>@news.Email</td>
+                <td>@news.CreateDate</td>
+                <td><a href="~/Influencer/Stadistics/@news.UserId"><i class="fa fa-folder-o"></i></a><a href="~/Influencer/GetNews/@news.UserId"><i class="fa fa-book"></i></a></td>   
+       
+            </tr>
+        }
+</table>
+
+
+
+    
+    
+

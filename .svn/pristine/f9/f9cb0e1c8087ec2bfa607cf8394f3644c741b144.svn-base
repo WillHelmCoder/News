@@ -1,0 +1,165 @@
+﻿@model List<GaleryImageViewModel>
+@{
+    ViewBag.Title = "Imágenes";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .no-display {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Im&aacute;genes
+                </h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Imagen
+                        </th>
+                        <th>
+                            T&iacute;tulo
+                        </th>
+                        <th>
+                            Descripci&oacute;n
+                        </th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="galery-img-@item.GaleryImageId">
+                            <td>
+                                <span id="order-@item.GaleryImageId" hidden>@item.Order</span>
+                                <img src="http://www.wineux.mx/content/images/@item.Image.Code" width="20" />
+                            </td>
+                            <td id="title-@item.GaleryImageId">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td id="desc-@item.GaleryImageId">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button id="dLabel" type="button" class="btn btn-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Opciones
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                        <li>
+                                            <a href="#" onclick="changeForm(@item.GaleryImageId, @item.ImageId)">
+                                                Editar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Eliminar", "DeleteGaleryImage", new { id = item.GaleryImageId })
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span id="frm-panel-h">
+                        Agregar imagen
+                    </span>
+                    <a href="#" class="btn btn-default pull-right no-display" id="addToggle">
+                        Agregar imagen
+                    </a>
+                </h3>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="panel-body">
+                    <input value="@ViewBag.GaleryId" name="galeryId" type="hidden" />
+                    <input value="0" type="hidden" name="galeryImageId" id="galImg-inpt" />
+                    <input type="hidden" name="isAnEdit" id="isAnEdit-inpt" value="0" />
+                    <div class="form-group selecImage">
+                        <label class="control-label">
+                            Imagen
+                        </label>
+                        @Html.DropDownList("ImageId", (IEnumerable<SelectListItem>)ViewBag.ImageId, "- Seleccionar -", new { @class = "form-control", @style = "max-width:100% !important", @id = "image-list" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            T&iacute;tulo
+                        </label>
+                        @Html.Editor("Title", new { htmlAttributes = new { @class = "form-control", @id = "title" } })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Descripci&oacute;n
+                        </label>
+                        @Html.Editor("Description", new { htmlAttributes = new { @class = "form-control", @maxlength = "140", @id = "desc" } })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Orden
+                        </label>
+                        @Html.Editor("Order", new { htmlAttributes = new { @class = "form-control", @id = "order" } })
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success" id="submit-btn">Agregar</button>
+                    <a href="@Url.Action("Index")" class="btn btn-danger pull-right">
+                        Cancelar
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/Scripts/jquery-2.1.1.js"></script>
+
+<script>
+    function changeForm(galeryImgId, imageId) {
+        var title = $("#title-" + galeryImgId).text();
+        var desc = $("#desc-" + galeryImgId).text();
+        var order = $("#order-" + galeryImgId).text();
+
+        $("#title").val(title.trim());
+        $("#desc").val(desc.trim());
+        $("#order").val(order.trim());
+
+        $("#galImg-inpt").val(galeryImgId);
+        $("#isAnEdit-inpt").val(1);
+        $("#image-list").val(imageId);
+
+        $("#submit-btn").html("Guardar cambios");
+        $("#frm-panel-h").html("Editar Imagen");
+
+        $("#addToggle").toggle();
+    }
+
+    $(document).on("click", "#addToggle", function () {
+        $("#title").val("");
+        $("#desc").val("");
+        $("#order").val("");
+
+        $("#galImg-inpt").val();
+        $("#isAnEdit-inpt").val(0);
+        $("#image-list").val(0);
+
+        $("#submit-btn").html("Agregar");
+        $("#frm-panel-h").html("Agregar Imagen");
+
+        $("#addToggle").toggle();
+    });
+</script>
+

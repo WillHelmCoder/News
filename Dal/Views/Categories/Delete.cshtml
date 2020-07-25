@@ -1,0 +1,54 @@
+﻿@model Dal.Models.Category
+
+@{
+    ViewBag.Title = "Eliminar categoría";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar categor&iacute;a</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de confirmar la siguiente operaci&oacute;n
+                </h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayName("Nombre")
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    
+                    <dt>
+                        @Html.DisplayName("Permalink")
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Permalink)
+                    </dd>
+
+                    <dt>
+                        Imagen
+                    </dt>
+                    <dd>
+                        <img src="/content/data/@Model.Image" style="height:200px; width:auto" />
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <button type="submit" class="btn btn-danger">Confirmar</button>
+                    <span>
+                        <strong>IMPORTANTE:</strong> Una vez confirmada, esta operaci&oacute;n no podr&aacute; ser deshecha
+                    </span>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default pull-right" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

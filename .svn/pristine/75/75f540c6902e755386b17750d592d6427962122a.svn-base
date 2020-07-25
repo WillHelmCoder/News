@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Invitar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Invita a alguien a colaborar contigo introduciendo su email
+                </h3>
+            </div>
+            <form action="@Url.Action("Register", "Admin")" method="post">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Email del invitado</label>
+                        <input type="email" name="email" class="form-control" placeholder="ejemplo@correo.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Rol del usuario</label>
+                        <select class="form-control" name="rol" required>
+                            <option value="">- Seleccionar -</option>
+                            <option value="Admin">Administrador</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Influencer">Influencer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Revista a la cual desea invitarlo</label>
+                        <select class="form-control" name="MagazineId" required>
+                            <option value="">- Seleccionar -</option>
+                            @foreach (var item in ViewBag.Magazines)
+                            {
+                                <option value="@item.MagazineId">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-success" type="submit">
+                        Invitar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,233 @@
+﻿@model KeyPointsContainer
+@{
+    ViewBag.Title = "Editar keypoint";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";}
+
+
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Informacion del contenedor
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.KeyPointsContainerId , new {@id = "keyPointContainerId" })
+                            @Html.LabelFor(model => model.Name, "Nombre de tu seccion", htmlAttributes: new {@class = "control-label"})
+                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @id = "TitleSection", @required = true}})
+                            @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, "Descripcion de tu seccion", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @id = "TitleDesc", @required = true } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Editar keypoint
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Titulo</label>
+                                        <input class="form-control" id="KeyPointTitle" name="Title" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Descripcion</label>
+                                        <input class="form-control" id="KeyPointDescription" name="Description" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Orden</label>
+                                        <input class="form-control" id="KeyPointOrder" name="Order" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Url</label>
+                                        <input class="form-control" id="KeyPointUrl" name="Url"/>
+                                    </div>
+                                    <div class="hiddenInput">
+                                        <input type="hidden" name="KeyPointId" id="KeyPointId"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Imagen Principal</label>
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" id="previewImage" alt="Imagen no disponible" />
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 300px; max-height: 300px; line-height: 20px;"></div>
+                                            <div>
+                                                <span class="btn btn-primary btn-xs btn-file">
+                                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                                    <input id="Image" class="default" accept="image/*" type="file" onchange='fileUpload(this)' required />
+                                                    <input type="hidden" class="Image"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span class="label label-danger">&#161;IMPORTANTE!</span>
+                                        <span>
+                                            La imagen deber&aacute; pesar menos de 1.6 Mb
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 backgroundImage">
+                                    <div class="form-group">
+                                        <label class="control-label">Imagen secundaria (No se muestra en vista previa)</label>
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="max-width: 200px; max-height: 150px;">
+                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" id="previewImageBackground" alt="Imagen no disponible" />
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                            <div>
+                                                <span class="btn btn-primary btn-xs btn-file">
+                                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                                    <input id="ImageBackground" class="default" accept="image/*" type="file" onchange='fileUpload(this)' />
+                                                    <input type="hidden" class="ImageBackground" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span class="label label-danger">&#161;IMPORTANTE!</span>
+                                        <span>
+                                            La imagen deber&aacute; pesar menos de 1.6 Mb
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" id="saveKeyPoint">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        KeyPoints
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p>Elige el keypoint que quieras editar y modifica sus datos en la seccion de la izquierda.</p>
+                    <div class="row margin-top20">
+                        @foreach (var item in Model.KeyPoints)
+                        {
+                            <div class="col-md-4 text-center SelectKeypoint" id="@item.KeyPointId" data-title="@item.Title" data-desc="@item.Description" data-order="@item.Order" data-url="@item.Url" data-img="@item.MainImage" data-img2="@item.SecondaryImage"><img src="/Content/data/@item.MainImage" alt="@item.Title" class="keyPointImg" /><div class="text-center"><h3>@item.Title</h3><p>@item.Description</p></div></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    var bottomExist = false;
+
+    $('.SelectKeypoint').on('click', function () {
+        var id = $(this).attr('id');
+        var title = $(this).data('title');
+        var desc = $(this).data('desc');
+        var order = $(this).data('order');
+        var url = $(this).data('url');
+        var primaryImage = $(this).data('img');
+        var secondaryImage = $(this).data('img2');
+
+        $('#KeyPointId').val(id);
+        $('#KeyPointTitle').val(title);
+        $('#KeyPointDescription').val(desc);
+        $('#KeyPointOrder').val(order);
+        $('#KeyPointUrl').val(url);
+        $('#previewImage').attr('src', '/Content/Data/' + primaryImage);
+        $('.Image').val(primaryImage);
+        if (secondaryImage.length > 0) {
+            $('#previewImageBackground').attr('src', '/Content/Data/' + primaryImage);
+            $('.ImageBackground').val(primaryImage);
+        }
+
+        if (!bottomExist) {
+            var saveButton = '<div class="col-md-12 col-lg-12 text-center"><button type="button" class="btn btn-success send-keyPoint">Guardar Keypoints</button></div>';
+
+            $('#saveKeyPoint').append(saveButton);
+            bottomExist = true;
+        }
+    } );
+
+    $(document).on('click', '.send-keyPoint', function () {
+        var keyPointId= $('#KeyPointId').val();
+        var title= $('#KeyPointTitle').val();
+        var description=$('#KeyPointDescription').val();
+        var order= $('#KeyPointOrder').val();
+        var url= $('#KeyPointUrl').val();
+        var image= $('.Image').val();
+        var imageBackground = $('.ImageBackground').val();
+
+        var titleSection = $('#TitleSection').val();
+        var descSection = $('#TitleDesc').val();
+        var keyPointContainerId = $('#keyPointContainerId').val();
+           
+        $.ajax({
+            type: 'POST',
+            url : '@Url.Action("Edit","KeyPoint")',
+            data: { KeyPointId: keyPointId, KeyPointsContainer: { KeyPointsContainerId: keyPointContainerId, Name: titleSection, Description: descSection }, TitleContainer: titleSection, descriptionContainer: descSection, Title: title, Description: description, ImageBackground: imageBackground, Image: image, Url: url, Order: order },
+            success: function(data) {
+                location.reload();
+            }
+        });
+    });
+
+    function fileUpload($this) {
+
+        var formData = new FormData();
+        var name = $($this).attr('id');
+        var files = $this.files;
+        var header = $('#TitleSection').val();
+
+        if (files.length > 0 && header.length > 0) {
+            formData.append("Image", files[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UploadImages", "Admin")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (imageName) {
+                    $('#preview' + name).attr('src', '/Content/Data/' + imageName.Message);
+                    $('.' + name).val(imageName.Message);
+                },
+
+                error: function () {
+                    alert("Whoops something went wrong!");
+                }
+            });
+        } else { alert("Algo salió mal, revisa que todos los datos estén completos o que la imagen no exceda las dimensiones indicadas.") }
+    }
+
+
+</script>

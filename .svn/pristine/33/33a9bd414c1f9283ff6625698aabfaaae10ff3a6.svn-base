@@ -1,0 +1,41 @@
+﻿@model News.Models.UserMagazine
+
+@{
+    ViewBag.Title = "Eliminar editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar editor</h2>
+
+<h3>Desea eliminar este elemento?</h3>
+<div>
+    <h4>Editor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Magazine.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Magazine.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+       
+
+        <div class="form-actions no-color">
+            <button type="submit" class="btn btn-danger">Eliminar</button> |
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

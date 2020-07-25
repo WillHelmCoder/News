@@ -1,0 +1,96 @@
+﻿@model Dal.Models.Advertise
+
+@{
+    ViewBag.Title = "Detalles del anuncio";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>
+    Detalles del anuncio
+</h2>
+
+<div class="panel-default panel">
+    <div class="panel-heading">
+        Contenido
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Nombre")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Contenido")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Url destino")
+            </dt>
+
+            <dd>
+                @(Model.Url ?? "N/A")
+            </dd>
+
+            <dt>
+                @Html.DisplayName("IFrame")
+            </dt>
+
+            <dd>
+                @(Model.IFrame ?? "N/A")
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Permalink")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Permalink)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Meta descripción")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MetaDesc)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Meta tags")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Keywords)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Alt de imagen")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Alt)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Imagen")
+            </dt>
+
+            <dd>
+                @(Model.Image ?? "N/A")
+            </dd>
+
+        </dl>
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.AdvertiseId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default pull-right" })
+    </div>
+</div>

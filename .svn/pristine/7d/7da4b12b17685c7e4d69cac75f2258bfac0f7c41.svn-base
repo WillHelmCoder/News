@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Paso dos: Crear tu primera noticia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section References
+{
+    <link href="/Content/chosen.css" rel="stylesheet" />
+    <link href="/Content/jquery.tagsinput.css" rel="stylesheet" />
+}
+<h2><small>Paso dos: </small>Crea tu primera noticia.</h2>
+
+@using (Html.BeginForm("CreateNew", "Wizard", FormMethod.Post, new { id = "Form", enctype = "multipart/form-data" }))
+{
+    @Html.Partial("_CreateNew");
+}
+@section scripts {
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/common.js")"></script>
+    <script src="@Url.Content("~/Scripts/chosen.jquery.js")"></script>
+}

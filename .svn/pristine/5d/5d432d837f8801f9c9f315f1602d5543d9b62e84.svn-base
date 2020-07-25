@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Agregar imágenes a galería";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="/Content/AdminLayout/css/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+<link href="/Content/AdminLayout/css/jquery.filer.css" rel="stylesheet" />
+
+<style>
+    .image-col {
+        margin-top: 10px;
+        border-right: 1px solid #ccc;
+    }
+
+        .image-col a {
+            margin-top: 15px;
+        }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Gestor de imagenes</h3>
+    </div>
+    <div class="panel-body">
+        <div class="message-clipboard" hidden="true"></div>
+        <p>Sube las imagenes para agregarlas a tu galer&iacute;a</p>
+        <input type="file" name="files[]" id="UploaderGallery" multiple="multiple">
+        <input type="hidden" id="GalleryId" value="@ViewBag.GalleryId" />
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Im&aacute;genes actuales
+        </h3>
+    </div>
+    <div class="panel-body">
+        @if (ViewBag.CurrentImages.Count != 0)
+            {
+            <div class="row">
+                @foreach (var item in ViewBag.CurrentImages)
+                {
+                    <div class="col-md-2 col-lg-2 col-xs-6 col-sm-6 text-center image-col">
+                        <img src="~/Content/data/@item.Image.Code" height="150" />
+                        <p>
+                            @Html.ActionLink("Eliminar", "DeleteGaleryImage", new { id = item.GaleryImageId }, new { @class = "btn btn-danger btn-sm" })
+                        </p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <span>
+                Lo sentimos, no hay im&aacute;genes en esta galer&iacute;a a&uacute;n
+            </span>
+        }
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/jquery.filer.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>

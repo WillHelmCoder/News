@@ -1,0 +1,95 @@
+﻿@model Dal.Models.CreateSliderModel
+@{
+    ViewBag.Title = "Crear Slider";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("CreateSlider", "Sliders", FormMethod.Post, new { id = "Form", enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Informacion del slider
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Slider.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Slider.Name, new { htmlAttributes = new { @class = "form-control", @id = "name", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Slider.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Crear" class="btn btn-success pull-right" />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-left" })
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Agregar elementos al slider
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-bordered editable-sample" id="editable-sample">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ((List<Dal.Models.News>)ViewBag.News))
+                            {
+                                <tr class="showSlide" data-id="@item.NewsId">
+                                    <td>@item.Title</td>
+                                    <td>
+                                        <a href="#">
+                                            @*<img src="/Content/Data/@item.Image" alt="@item.Alt">*@
+                                            <img src="/Content/data/@item.Image" alt="@item.Alt">
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div id="newsIdContainer"></div>
+                    <input type="hidden" name="SliderId" value="@ViewBag.SliderId" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section ScriptsIframe{
+
+<script src="~/Content/AdminLayout/js/jquery.js"></script>
+<script type="text/javascript" src="/Scripts/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/Scripts/data-tables/DT_bootstrap.js"></script>
+<script src="/Scripts/table-editable.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        EditableTable.init();
+        var slides = @Html.Raw(Json.Encode(ViewBag.LastItems));
+        alert(slides.length );
+        if(slides.lenght > 0){
+            $('#slidesAdded tr:first').remove();
+        }
+    });
+
+    $('.showSlide').on('click', function () {
+        var newId = $(this).data('id');
+        $(this).addClass("selectedSlide");
+
+        var input ='<input type="hidden" name="NewId[]" value="'+ newId +'"/>';
+        $('#newsIdContainer').append(input);
+    });
+</script>
+}
+

@@ -1,0 +1,104 @@
+﻿@model Dal.ViewModels.DataViewModel
+
+@{
+    ViewBag.Title = "Editar dato";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Editar dato</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Favor de llenar correctamente los campos requeridos
+        </h3>
+    </div>
+    @using (Html.BeginForm("Edit", "Datas", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="panel-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.DataId)
+            @Html.HiddenFor(model => model.ImageString)
+            <div class="form-group">
+                @Html.Label("Título", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Título" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Descripción", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Descripción (opcional)" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Orden", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", @placeholder = "Posición elemento (0 - n)" } })
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Url", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", @placeholder = "Url destino (opcional)" } })
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Html.LabelFor(x => x.Image, new { @class = "control-label" })
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                            <img src="/Content/data/@Model.ImageString" alt="Imagen no disponible" />
+                        </div>
+                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 400px; max-height: 300px; line-height: 20px;"></div>
+                        <div>
+                            <span class="btn btn-primary btn-file">
+                                <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                <input name="Image" class="default" accept="image/*" value="@Model.Image" type="file" />
+                            </span>
+                        </div>
+                    </div>
+                    <span class="label label-danger">&#161;IMPORTANTE!</span>
+                    <span>
+                        La imagen deber&aacute; pesar menos de 1.6 Mb
+                    </span>
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(x => x.ImageSign, new { @class = "control-label" })
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                            <img src="/Content/data/@Model.ImageSignString" alt="Imagen no disponible" />
+                        </div>
+                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 400px; max-height: 300px; line-height: 20px;"></div>
+                        <div>
+                            <span class="btn btn-primary btn-file">
+                                <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                <input name="ImageSign" class="default" accept="image/*" value="@Model.ImageSign" type="file" />
+                            </span>
+                        </div>
+                    </div>
+                    <span class="label label-danger">&#161;IMPORTANTE!</span>
+                    <span>
+                        La imagen deber&aacute; pesar menos de 1.6 Mb
+                    </span>
+                </div>                
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Categoría padre", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("DataParentId", null, "- Seleccionar -", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataParentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Guardar" class="btn btn-success" />
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-right" })
+        </div>
+    }
+</div>
+
+<script src="~/Content/AdminLayout/js/jquery.js"></script>
+<script src="@Url.Content("~/Scripts/common.js")"></script>
+<script src="@Url.Content("~/Scripts/chosen.jquery.js")"></script>

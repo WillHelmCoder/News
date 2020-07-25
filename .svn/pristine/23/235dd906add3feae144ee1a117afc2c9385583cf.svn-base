@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Detalles de pago";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles de pago</h2>
+
+<a href="/Magazines/Paypal" class="btn btn-success">Pagar ahora</a>
+

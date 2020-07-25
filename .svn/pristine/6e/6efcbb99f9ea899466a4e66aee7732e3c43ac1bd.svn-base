@@ -1,0 +1,100 @@
+﻿@model Dal.Models.Magazine
+
+@{
+    ViewBag.Title = "Eliminar revista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar revista</h2>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                ¿Seguro que desea eliminar esta revista?
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        Nombre
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        C&oacute;digo
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Code)
+                    </dd>
+
+                    <dt>
+                        Descripci&oacute;n
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        Dominio
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Domain)
+                    </dd>
+
+                    <dt>
+                        Direcci&oacute;n
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                    <dt>
+                        Ciudad
+                    </dt>
+
+                    <dd>
+                        @Model.City.Name
+                    </dd>
+                    <dt>
+                        Correo electr&oacute;nico
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt>
+                        Privada
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsPrivate)
+                    </dd>
+                </dl>
+
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-actions no-color">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default pull-right" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Logo
+            </div>
+            <div class="panel-body">
+                <img src="http://www.expose.mx/Content/data/@Model.Logo" style="width:100%" />
+            </div>
+        </div>
+    </div>
+</div>

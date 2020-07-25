@@ -1,0 +1,170 @@
+﻿@model List<Dal.Models.News>
+@{
+    ViewBag.Title = "Busqueda";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@section References
+{
+    <meta name="Title" content="Inicio">
+    <meta name="description" content="Recompensa clientes con nuestro monedero electrónico. Activa tu demo gratis por 30 días en 5 minutos!." />
+    <meta name="keywords" content="monedero electrónico, recompensas, monederos, fidelización, programas de lealtad, programa de lealtad, monederos electrónicos, como incrementar mis ventas, como vender mas, como atraer clientes, fidelizar, fidelización de clientes, retención de clientes, como vender mas en mi negocio, como aumentar mis ventas, fidelizar clientes, atracción de clientes, estrategias de fidelización, fidelta, fidelta.mx, crea comunidad" />
+}
+
+<section class="content">
+
+    <!-- BEGIN .wrapper -->
+    <div class="wrapper">
+
+
+        <!-- <div class="breaking-news">
+            <div class="breaking-title">
+                <h3>Breaking News</h3>
+            </div>
+            <div class="breaking-block">
+                <ul>
+                    <li><a href="category.html" class="break-category" style="background-color: #276197;">Tech News</a><h4><a href="post.html">Prize pool for The International 2014 surges to $5.7 million</a></h4><a href="post.html#comments" class="comment-link"><i class="fa fa-comment-o"></i>0</a></li>
+                    <li><a href="category.html" class="break-category" style="background-color: #429d4a;">Contests</a><h4><a href="post.html">An rebum nusquam cum duo invenire mundi</a></h4><a href="post.html#comments" class="comment-link"><i class="fa fa-comment-o"></i>0</a></li>
+                    <li><a href="category.html" class="break-category" style="background-color: #ffd800; color: #232323;">World News</a><h4><a href="post.html">An rebum nusquam cum duo invenire mundi</a></h4><a href="post.html#comments" class="comment-link"><i class="fa fa-comment-o"></i>0</a></li>
+                </ul>
+            </div>
+        </div> -->
+
+
+        <div class="main-content has-sidebar">
+            <!-- <div class="main-content has-double-sidebar"> -->
+            <!-- <div class="main-content"> -->
+            <!-- BEGIN .ot-slider -->
+            @*<div class="ot-slider owl-carousel">
+                    @foreach (var item in Model.Categories)
+                    {
+                <!-- BEGIN .ot-slide -->
+                        <div class="ot-slide">
+                            @foreach (var items in item.Newses)
+                            {
+                                <div class="ot-slider-layer second">
+                                    <a href="/home/noticia/@items.NewsId?perma=@items.Permalink">
+                                        <strong><i style="background-color: #ed2d00; color: #fff;">@item.Name</i>@items.Title</strong>
+                                        <img src="http://newssystem.yoalty.com/Content/data/@items.Image" alt="" />
+                                    </a>
+                                </div>
+                            }
+
+                        </div>
+
+                    }
+                    <!-- END .ot-slider -->
+                </div>*@
+
+            <div class="img-responsive col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <img src="http://expose.mx/Content/data/@item.Image" alt="@item.Title" />
+            </div>
+        </div>
+        </a>
+        <!-- BEGIN .left-content -->
+        <div class="left-content">
+
+            <!-- BEGIN .home-block -->
+            <div class="home-block">
+                <div class="main-title">
+                    @*<a href="#" class="right button">View More Posts</a>*@
+                    <h2>B&uacute;squeda</h2>
+                    <span>Resultados (@Model.Count)</span>
+                </div>
+
+                <!-- BEGIN .article-list-block -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="article-list-block">
+                            @foreach (var item in Model)
+                                {
+                                <div class="col-md-4">
+                                    <div class="item">
+                                        <div class="item-header">
+                                            <a href="/noticia/@item.NewsId/@item.Permalink">
+                                                <div class=" row">
+                                                </div>
+                                                <div class="item-content">
+                                                    <div class="content-category">
+                                                        <a href="" class="bluecolor">@item.Category.Name</a>
+                                                    </div>
+                                                    <h3><a href="/noticia/@item.NewsId/@item.Permalink"> @item.Title</a></h3>
+                                                    <!-- <div class="ot-star-rating">
+                                                             <span style="width: 100%;" class=""><strong class="rating">5</strong> out of 5</span>
+                                                             <strong>Rating: 5 out of 5 stars</strong>
+                                                         </div> -->
+                                                    <p>@item.Description</p>
+                                                    <a href="/noticia/@item.NewsId/@item.Permalink" class="read-more-link">Leer Más<i class="fa fa-angle-double-right"></i></a>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    }
+
+
+
+                                    <!-- END .article-list-block -->
+                                </div>
+                            </div>
+                        </div>
+                    <!-- END .home-block -->
+                            </div>
+
+                                @*<div class="main-title">
+                                        <h2>Shortcode Home Block</h2>
+                                        <span>You can drop any shortcode you like</span>
+                                    </div>*@
+
+                                @*<div class="article-content">
+
+                                        <div class="paragraph-row">
+                                            <div class="column6">
+
+                                                <div class="accordion">
+                                                    <div class="active">
+                                                        <a href="#">Sea elitr verterem doctus nominati doctus</a>
+                                                        <div style="display: block;">
+                                                            <p>His ea legendos molestiae, veri illud facete per cu. Ferri temporibus disputando pro. Nonum deterruisset quo et, pri id case dolor iudicabit. Nam putent mnesarchum ut, quem appetere referrentur duo. Vis modus ubique indoctum no, nec legere assentior in.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">Ei eos natum constituam deterruisset minim probatus mel at</a>
+                                                        <div>
+                                                            <p>Quo causae omnium ut, ut dicit noluisse cum. Ei eos natum constituam deterruisset, minim probatus mel at. Sea elitr verterem cu, an doctus nominati vis. His id doctus numquam, vel postulant accommodare cu, id nec prima movet perpetua.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">Unum probo solum eum ei natum deserunt</a>
+                                                        <div>
+                                                            <p>His ea legendos molestiae, veri illud facete per cu. Ferri temporibus disputando pro. Nonum deterruisset quo et, pri id case dolor iudicabit. Nam putent mnesarchum ut, quem appetere referrentur duo. Vis modus ubique indoctum no, nec legere assentior in. Quo causae omnium ut, ut dicit noluisse cum. Ei eos natum constituam deterruisset, minim probatus mel at. Sea elitr verterem cu, an doctus nominati vis. His id doctus numquam, vel postulant accommodare cu, id nec prima movet perpetua.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="column6">
+
+                                                <div class="wp-caption aligncenter">
+                                                    <a href="/Content/images/photos/image-30.jpg" class="lightbox-photo"><img class="size-thumbnail" alt="" src="/Content/images/photos/image-30.jpg" /></a>
+                                                    <p class="wp-caption-text">Ludus zril eu est, pro an elit ornatus facilisi, vis ex aeque accumsan recteque. Duis repudiare reprehendunt vim ex, nonumes intellegebat quo an.</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                <!-- END .left-content -->
+                            </div>
+
+            <!-- BEGIN #sidebar -->
+                                @{Html.RenderAction("_LastNews");}
+
+
+                            </div>
+
+        <!-- END .wrapper -->
+                            </div>
+
+    <!-- BEGIN .content -->
+                            </section>
+
+

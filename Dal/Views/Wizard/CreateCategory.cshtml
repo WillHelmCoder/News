@@ -1,0 +1,122 @@
+﻿@model CategoryViewModel
+@{
+    ViewBag.Title = "Paso 1: Crear categoría";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2><small>Paso 1: </small>Crea tu primera categor&iacute;a.</h2>
+@using (Html.BeginForm("CreateCategory", "Wizard", FormMethod.Post, new { id = "Form", enctype = "multipart/form-data" }))
+{
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(x => x.MagazineId)
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Informacion de la categoria
+                        </h3>
+                    </div>
+
+                    @Html.HiddenFor(x => x.MagazineId)
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "name", @required = true } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Permalink, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Permalink, new { htmlAttributes = new { @class = "form-control", @id = "permalink", @required = true } })
+                            @Html.ValidationMessageFor(model => model.Permalink, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ParentCategoryId, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.ParentCategoryId, new SelectList(Model.ParentsCategories, "CategoryId", "Name"), "Selecciona una categoria padre", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ParentCategoryId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Image, new { @class = "control-label" })
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 400px;">
+                                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="Imagen no disponible" />
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 400px; max-height: 300px; line-height: 20px;"></div>
+                                <div>
+                                    <span class="btn btn-primary btn-xs btn-file">
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                        <input name="Image" class="default" accept="image/*" type="file" />
+                                    </span>
+                                </div>
+                                <span class="label label-danger">&#161;IMPORTANTE!</span>
+                                <span>
+                                    La imagen deber&aacute; pesar menos de 1.6 Mb
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Crear" class="btn btn-success" />
+                        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-right" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Configurar im&aacute;genes
+                        </h3>
+                    </div>
+                    @Html.HiddenFor(x => x.MagazineId)
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.showImage, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            <div class="col-md-1 ">
+                                <label>Si</label>
+                                <input type="radio" class="showImage" name="showImage" value="true" checked />
+                            </div>
+                            <div class="col-md-1">
+                                <label>No</label>
+                                <input type="radio" class="showImage" name="showImage" value="false" />
+                            </div>
+                        </div>
+                        <div class="imageSize">
+                            <div class="form-group margin-top40">
+                                @Html.LabelFor(model => model.Width, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "form-control", @required = false } })
+                                @Html.ValidationMessageFor(model => model.Width, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control", @required = false } })
+                                @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    $(document).on("blur", '#name', function () {
+        var phrase = $('#name').val();
+        $.ajax({
+            url: '@Url.Action("CreateSlug", "News")',
+            data: 'phrase=' + phrase,
+            success: function (slug) {
+                $('#permalink').val(slug);
+            }
+        });
+    });
+</script>

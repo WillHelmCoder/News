@@ -1,0 +1,244 @@
+﻿@model Dal.Models.NewsViewModel
+
+@{
+    ViewBag.Title = "Editar artículo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+@section ExtraCss
+{
+    <link href="~/Content/AdminLayout/css/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/jquery.filer.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/jquery.cropbox.css" rel="stylesheet" />
+}
+<h2>Editar art&iacute;culo</h2>
+
+@using (Html.BeginForm("Edit", "News", FormMethod.Post, new { id = "myForm", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.NewsId)
+    @Html.HiddenFor(model => model.LogoImage)
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Favor de llenar correctamente los campos requeridos
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @id = "Desc", @maxlength = 140, @required = true } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    @if (ViewBag.MagId == 1052)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control datetimepicker", @placeholder = "Opcional" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Body, new { @class = "tiny" })
+                        @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CategoryId, "Categoría", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.VideoEmbed, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.VideoEmbed, new { htmlAttributes = new { @class = "form-control", @placeholder = "URL de video ( opcional )" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Image, new { @class = "control-label" })
+                        <div class="image-editor" id="image-container">
+                            <label class="btn btn-primary">
+                                Seleccionar imagen <input type="file" id="mainImage" style="display: none;">
+                            </label>
+                            <div class="imageBox" style="background-image: url('/Content/data/@Model.LogoImage'); background-size: cover; ">
+                                <div class="thumbBox"></div>
+                                <div class="spinner" style="display: none">Loading...</div>
+                            </div>
+
+                            <input type="hidden" name="MainImage" id="hiddenMainImage" value="@Model.LogoImage" />
+                            <input type="hidden" name="Thumbnail" id="hiddenThumbnail" />
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Cancelar", "MagazineNews", new { id = Model.CategoryId }, new { @class = "btn btn-danger " })
+                    <input id="submit" type="submit" value="Crear" class="btn btn-success pull-right" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Gestor de im&aacute;genes</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="message-clipboard" hidden></div>
+                    <p>
+                        Sube las imagenes y copia la URL para usarla en el art&iacute;culo
+                    </p>
+                    <input type="file" name="files[]" id="filer_input2" multiple="multiple">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <b>S</b>earch <b>E</b>ngine <b>O</b>ptimization
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Permalink, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Permalink, new { @class = "form-control", @id = "Permalink", @required = true })
+                        @Html.ValidationMessageFor(model => model.Permalink)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MetaDesc, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.MetaDesc, new { @class = "form-control", @id = "MetaDesc", @maxlength = 140, @required = true })
+                        @Html.ValidationMessageFor(model => model.MetaDesc)
+                    </div>
+
+                    @Html.Partial("_MetaTags")
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Alt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Alt, new { @class = "form-control", @id = "Image-Alt", @required = true })
+                        @Html.ValidationMessageFor(model => model.Alt)
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Link de art&iacute;culo
+                        </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="articleLink" value="http://www.expose.mx/noticia/@Model.NewsId/@Model.Permalink">
+                            <span class="input-group-btn">
+                                <a class="btn btn-default" onclick="copyToClipboard('#articleLink')">
+                                    <i class="fa fa-clipboard"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.IsClon)
+                {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Nota de referencia al art&iacute;culo original
+                    </div>
+                    <div class="panel-body">
+                        @(Html.Raw(Model.ThankNote))
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@section ExtraScript
+{
+    <script src="@Url.Content("~/Scripts/jquery.filer.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.cropit.js"></script>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+    <script src="~/Scripts/Cropper.js"></script>
+    <script type="text/javascript">
+
+        $(function() {
+            $('.datetimepicker').datetimepicker({
+                format: 'DD/MM/YYYY hh:mm:ss A'
+            });
+        });
+
+        $(document).on("keyup", "#Desc", function() {
+            $('#MetaDesc').val($(this).val());
+        });
+
+        $(document).on("blur", '#Title', function() {
+            var phrase = $('#Title').val();
+            $.ajax({
+                url: '@Url.Action("CreateSlug", "News")',
+                data: 'phrase=' + phrase,
+                success: function(slug) {
+                    $('#Permalink').val(slug);
+                    $('#image-alt').val(slug);
+                }
+            });
+        });
+
+        function copyToClipboard(obj, element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val("http://www.thecontent.mx/content/data/" + obj).select();
+            document.execCommand("copy");
+            $temp.remove();
+
+            $(".message-clipboard").html("Copiado a portapapales");
+            $(".message-clipboard").fadeIn().delay(1000).fadeOut();
+        }
+
+        var options =
+        {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png'
+        }
+        var cropper;
+        $('#mainImage').on('change', function() {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        });
+        $('#myForm').submit(function() {
+            var img = cropper.getBlob();
+
+            var fd = new FormData();
+            fd.append('fname', 'mainImage');
+            fd.append('data', img);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateImages", "Admin")',
+                data: fd,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: (function (data) {
+                    $('#hiddenMainImage').val(data.MainImage);
+                    $('#hiddenThumbnail').val(data.Thumbnail);
+                })
+
+            });
+
+            return true;
+        });
+
+
+    </script>
+}

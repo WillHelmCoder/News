@@ -1,0 +1,210 @@
+﻿@model MagazineViewModel
+
+@{
+    ViewBag.Title = "Editar revista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar revista</h2>
+
+<div class="row">
+    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+        @using (Html.BeginForm("Edit", "Magazines", FormMethod.Post, new { id = "Form", enctype = "multipart/form-data" }))
+        {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Contenido
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.MagazineId)
+                    @Html.HiddenFor(model => model.LogoImage)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Domain, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Domain, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.Domain, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Estado</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("StateId", new SelectList(ViewBag.States, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Ciudad</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("CityId", new SelectList(ViewBag.Cities, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsPrivate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.IsPrivate, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Image, new { @class = "control-label col-md-2" })
+                        <div class="col-md-9">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="Imagen no disponible" />
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 400px; max-height: 300px; line-height: 20px;"></div>
+                                <div>
+                                    <span class="btn btn-success btn-file">
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                        <input name="Image" class="default" accept="image/*" type="file" />
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="label label-danger">NOTA!</span>
+                            <span>
+                                El tamaño de la imagen debe ser de 810px x 178px, menor a 1.6 MB.
+                            </span>
+                        </div>
+                    </div>
+                    <p>
+                        SOCIAL
+                    </p>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FacebookAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">https://www.facebook.com/</span>
+                                @Html.EditorFor(model => model.FacebookAccount, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.FacebookAccount, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TwitterAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">https://www.twitter.com/</span>
+                                @Html.EditorFor(model => model.TwitterAccount, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.TwitterAccount, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GoogleAnlyticsId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.GoogleAnlyticsId, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="validation-message pull-right">
+                                @Html.ValidationMessageFor(model => model.GoogleAnlyticsId, "", new { @class = "text-danger" })
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-right" })
+            </div>
+        </div>
+        }
+    </div>
+    <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                GUID
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <input value="@Model.Guid" class="form-control" id="guid" disabled />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="copyToClipboard('#guid')">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
+                <label id="message" style="color:#960000; text-align:right">
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).val()).select();
+        document.execCommand("copy");
+        $temp.remove();
+
+        $("#message").html("Copiado a portapapales");
+    }
+
+    FederalEntityChange();
+
+    function FederalEntityChange() {
+        $("#StateId").change(function () {
+            var id = $(this).val();
+            if (id == null || id == "") return false;
+            GetMunicipalities(id);
+        });
+    }
+
+    function GetMunicipalities(id) {
+        if (id == null || id == "") return false;
+        $("#CityId").html('<option value="">Selecciona tu ciudad</option>');
+        $.get("/api/Magazines/GetCities/" + id, function (data) {
+            $.each(data, function (index, obj) {
+                $("#CityId").append("<option value=" + obj.CityId + ">" + obj.Name + "</option>");
+            });
+        });
+    }
+</script>

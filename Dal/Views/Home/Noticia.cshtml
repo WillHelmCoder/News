@@ -1,0 +1,293 @@
+﻿@using System.Text.RegularExpressions
+@using System.Web.UI.WebControls
+@model NoticiasViewModel
+@{
+    ViewBag.Title = Model.Noticia.Title;
+
+}
+
+@section References
+{
+    <meta name="Title" content="@Model.Noticia.Title">
+    <meta name="description" content="@Model.Noticia.Description" />
+    <meta name="keywords" content="@Model.Noticia.Keywords" />
+
+    <meta property="og:title" content="@Model.Noticia.Title" />
+    <meta property="og:site_name" content="Noticias" />
+    <meta property="og:url" content="http://expose.mx/noticia/@Model.Noticia.NewsId/@Model.Noticia.Permalink" />
+    <meta property="og:image" content="http://expose.mx/Content/Data/@Model.Noticia.Image" />
+    <meta property="og:description" content="@Model.Noticia.Description" />
+}
+
+
+<!-- BEGIN .content -->
+<section class="content">
+    <!-- BEGIN .wrapper -->
+    <div class="wrapper">
+        <div class="main-content  has-sidebar">
+            <!-- <div class="main-content has-double-sidebar"> -->
+            <!-- BEGIN .left-content -->
+            <div class="left-content-noticia">
+                <div class="article-content">
+                    <div class="article-header">
+                        <img class="text-center" src="@Model.Noticia.Image" alt="@Model.Noticia.Title" />
+                        <div class="content-category">
+                            <a class="rojo" href="~/categoria/@Model.Noticia.CategoryId/@Model.Noticia.Category.Name.Replace(' ', '-')">@Model.Noticia.Category.Name</a>
+                            <h1>@Model.Noticia.Title</h1>
+                        </div>
+                        <span>
+                            <span><a href="#">@Model.Noticia.CreationDate.ToShortDateString()</a></span>
+                        </span>
+                    </div>
+
+                    @if (Model.Noticia.IsClon)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    @Model.Noticia.ThankNote
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="caps col-sm-12 col-md-8 col-lg-8" align="justify">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Raw(Model.Noticia.Body)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-lg-4" style="padding:0 40px">
+                            <div class="row tagsandsocial">
+                                <div class="margin-top-60">
+                                    <div class="main-title title-margin-top">
+                                        <span style="font-size:22px !important; color:#1a1a1a; font-weight:700">Redes sociales</span>
+                                    </div>
+                                    <span class='st_facebook_large' displaytext='Facebook'></span>
+                                    <span class='st_googleplus_large' displaytext='Google +'></span>
+                                    <span class='st_twitter_large' displaytext='Tweet'></span>
+                                    <span class='st_linkedin_large' displaytext='LinkedIn'></span>
+                                    <span class='st_pinterest_large' displaytext='Pinterest'></span>
+                                    <span class='st_email_large' displaytext='Email'></span>
+                                    <span class='st_whatsapp_large' displaytext='WhatsApp'></span>
+                                    <span class='st_fblike_large' displaytext='Facebook Like'></span>
+                                    <span class='st_plusone_large' displaytext='Google +1'></span>
+                                </div>
+                                @if (!String.IsNullOrEmpty(Model.Noticia.Keywords))
+                                {
+                                    <div class="tag-cloud-body" style="width:100%">
+                                        <div class="main-title title-margin-top">
+                                            <span style="font-size:22px !important; color:#1a1a1a; font-weight:700">Tags</span>
+                                        </div>
+                                        @foreach (var item in Model.Noticia.Keywords.Split(','))
+                                        {
+                                            <a href="/Home/Tag?tag=@item.ToString()">@item.ToString()</a>
+                                        }
+
+                                    </div>
+                                    <br /><br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <div class="col-md-12">
+                            <p><strong>@(User.Identity.IsAuthenticated.Equals(false) ? "Necesitas iniciar sesión para poder realizar algunas acciones." : "No olvides compartir tu opinión!")</strong></p>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <button class="btn btn-success btn-sm" type="button" id="voteUp" onclick="upVote(@Model.Noticia.NewsId, 0)" @(User.Identity.IsAuthenticated.Equals(false) ? "disabled = 'true'" : "")>
+                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                Me gusta <span class="badge" id="upVotes"></span>
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button" id="voteDown" onclick="downVote(@Model.Noticia.NewsId, 0)" @(User.Identity.IsAuthenticated.Equals(false) ? "disabled = 'true'" : "")>
+                                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                                No me gusta <span class="badge" id="downVotes"></span>
+                            </button>
+                        </div>
+                        <div class="col-md-8 col-lg-8">
+                            <div class="form-group form-group-margin-bot">
+                                <div class="row">
+                                    <div class="col-sm-6 form-group form-post-width">
+                                        <textarea placeholder="Comienza a escribir..." class="form-control" id="commentContent" @(User.Identity.IsAuthenticated.Equals(false) ? "disabled = 'true'" : "") required></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success pull-right" id="postCommentButton" onclick="postComment()" @(User.Identity.IsAuthenticated.Equals(false) ? "disabled = 'true'" : "")>P&uacute;blicar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="main-title title-margin-top">
+                                <h3>Comentarios</h3>
+                            </div>
+                            <ol id="comments" style="border-bottom:0"></ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({ publisher: "bb303683-6460-4b59-bf76-aca812a30db9", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>
+    <script>
+        var upVoteUrl = "/vote-up/";
+        var downVoteUrl = "/vote-down/";
+        var getVotes = "/get-votes/";
+        var getComments = "/get-comments/";
+        var getCommentVotes = "/get-comment-votes/";
+        var addComment = "/add-comment/";
+
+        var newId = @Model.Noticia.NewsId;
+
+        loadComments();
+        loadVotes();
+
+        function postComment()
+        {
+            var comment = $("#commentContent").val();
+
+            $("#newComment").empty();
+            $("#newComment").hide();
+            $("#commentContent").val('');
+
+            $.getJSON(addComment + newId + "/" + comment, function () {
+            }).done(function(data){
+                loadComments();
+            });
+        }
+        function loadComments(){
+            $("#comments").empty();
+            $("#comments").append("<li id='newComment' style='padding:20px 0; border-bottom: 1px dotted #ccc' hidden></li>");
+            $.getJSON(getComments + newId, function () {
+            }).done(function (data) {
+                if(data == 0) { $("#comments").append("<br /><strong>Este art&iacute;culo no cuenta con comentarios a&uacute;n.</strong>"); }
+                $.each(data, function(index, obj){
+                    var date =  new Date(parseInt(obj.CreationDate.substr(6)));
+                    $.getJSON(getCommentVotes + obj.CommentId, function(){
+                    }).done(function(data){
+                        loadCommentVotes(obj.CommentId, data);
+                    });
+
+                    $("#comments").append(""
+                    + "<li style = 'padding:20px 0; border-bottom: 1px dotted #ccc'>"
+                        + "<div class='comment-block' style='padding-left:0'>"
+                            + "<div class='comment-text' style='margin-left:0'>"
+                                + "<strong class='user-nick'>" + obj.Users.Email.substring(0, obj.Users.Email.indexOf("@@")) +"</strong>"
+                                + "<span class='time-stamp'>" + date.toDateString() + "</span>"
+                                + "<p>" + obj.Content + "</p>"
+                            + "</div>"
+                            + "<div class='clear-float'></div>"
+                                + "<button class='btn btn-success btn-xs' type='button' id='commentVoteUp' onclick='upVote(" + obj.CommentId + ", 1)'>"
+                                    + "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>"
+                                    + " <span class='badge' id = 'commentUpVotes" + obj.CommentId + "'></span>"
+                                + "</button> "
+                                + "<button class='btn btn-danger btn-xs' type='button' id='commentVoteDown' onclick='downVote(" + obj.CommentId + ", 1)'>"
+                                    + "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span>"
+                                    + " <span class='badge' id = 'commentDownVotes" + obj.CommentId + "'></span>"
+                                + "</button>"
+                        + "</div>"
+                    + "</li><br />");
+                });
+
+            }).error(function (err) {
+                alert(err);
+            });
+        }
+        function loadVotes() {
+            $.getJSON(getVotes + newId, function () {
+            }).done(function (data) {
+                $("#upVotes").empty();
+                $("#downVotes").empty();
+                $("#upVotes").append(data[0]);
+                $("#downVotes").append(data[1]);
+            }).error(function (err) {
+            });
+        }
+        function upVote(id, type) {
+            $.getJSON(upVoteUrl + id + "/" + type, function () {
+            }).done(function (data) {
+                if(type == 0)
+                    loadVotes();
+                if(type == 1)
+                    $.getJSON(getCommentVotes + id, function(){
+                    }).done(function(data){
+                        loadCommentVotes(id, data);
+                    });
+            }).error(function (err) {
+                alert(err);
+            });
+        }
+        function loadCommentVotes(id, data){
+            $("#commentUpVotes" + id).empty();
+            $("#commentDownVotes" + id).empty();
+            $("#commentUpVotes" + id).append(data[0]);
+            $("#commentDownVotes" + id).append(data[1]);
+        }
+        function downVote(id, type) {
+            $.getJSON(downVoteUrl + id + "/" + type, function () {
+            }).done(function (data) {
+                if(type == 0)
+                    loadVotes();
+                if(type == 1)
+                    $.getJSON(getCommentVotes + id, function(){
+                    }).done(function(data){
+                        loadCommentVotes(id, data);
+                    });
+            }).error(function (err) {
+                alert(err);
+            });
+        }
+
+
+        var content = $("#commentContent").val();
+        if($.trim(content) == '')
+            $("#postCommentButton").attr("disabled", true);
+
+        $(document).on("keyup", "#commentContent", function(){
+            $("#postCommentButton").attr("disabled", false);
+            $("#newComment").show();
+            $("#newComment").empty();
+
+            var content = $(this).val();
+
+            if($.trim(content) == '')
+            {
+                $("#newComment").hide();
+                $("#postCommentButton").attr("disabled", true);
+            }
+
+            $("#newComment").append(""
+                + "<div class='comment-block' style='padding-left:0'>"
+                    + "<div class='comment-text' style='margin-left:0'>"
+                        + "<strong class='user-nick'>" + "@ViewBag.userEmail" + "</strong>"
+                        + "<span class='time-stamp'>" + "@ViewBag.todaysDate" + "</span>"
+                        + "<p>" + content + "</p>"
+                    + "</div>"
+                    + "<div class='clear-float'></div>"
+                        + "<button class='btn btn-success btn-xs' type='button' id='commentVoteUp' disabled onclick='upVote(0, 1)'>"
+                            + "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>"
+                            + " <span class='badge' id = 'commentUpVotes'>0</span>"
+                        + "</button> "
+                        + "<button class='btn btn-danger btn-xs' type='button' id='commentVoteDown' disabled onclick='downVote(0, 1)'>"
+                            + "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span>"
+                            + " <span class='badge' id = 'commentDownVotes'>0</span>"
+                        + "</button>"
+                + "</div><br />");
+        });
+
+    </script>
+}
+

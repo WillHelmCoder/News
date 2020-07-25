@@ -1,0 +1,172 @@
+﻿@model Dal.ViewModels.AdvertiseViewModel
+@{
+    ViewBag.Title = "Editar anuncio";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Editar anuncio</h2>
+
+@using (Html.BeginForm("Edit", "Advertises", FormMethod.Post, new { id = "Form", enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-8 col-lg-8 col-xs-12 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Favor de llenar correctamente los campos requeridos
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name", @placeholder = "Nombre", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", @placeholder = "Url destino", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                        <p class="help-block">Website URL</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Source, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fuente", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                        <p class="help-block">Campaign Source</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Medium, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Medium, new { htmlAttributes = new { @class = "form-control", @placeholder = "Medio", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Medium, "", new { @class = "text-danger" })
+                        <p class="help-block">Campaign Medium</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Campaign, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Campaign, new { htmlAttributes = new { @class = "form-control", @placeholder = "Campaña", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Campaign, "", new { @class = "text-danger" })
+                        <p class="help-block">Campaign Name</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Term, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Term, new { htmlAttributes = new { @class = "form-control", @placeholder = "Keywords", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+                        <p class="help-block">Campaign Term</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contenido", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        <p class="help-block">Campaign Content</p>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Horizontal, htmlAttributes: new { @class = "control-label" })
+                        @Html.CheckBoxFor(model => model.Horizontal, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Horizontal, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Tipo de contenido
+                        </label>
+                        <select class="form-control" id="contentTypeInpt">
+                            <option value="">
+                                - Seleccionar -
+                            </option>
+                            <option value="1" @(!string.IsNullOrEmpty(Model.ImageString) ? "selected" : "")>
+                                Imagen
+                            </option>
+                            <option value="2">
+                                iframe
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="iframeBox" hidden>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IFrame, "Favor de pegar código de iframe", htmlAttributes: new { @class = "control-label" })
+                                @Html.TextAreaFor(model => model.IFrame, htmlAttributes: new { @class = "form-control", @rows = "10", @placeholder = "<iframe></iframe>" })
+                                @Html.ValidationMessageFor(model => model.IFrame, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="imageBox" @(!string.IsNullOrEmpty(Model.ImageString) ? "" : "hidden")>
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Image, new { @class = "control-label" })
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-new thumbnail" style="max-width: 400px; max-height: 300px;">
+                                        <img src="~/Content/data/@Model.ImageString" alt="Imagen no disponible" />
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 400px; max-height: 300px; line-height: 20px;"></div>
+                                    <div>
+                                        <span class="btn btn-primary btn-xs btn-file">
+                                            <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Seleccionar imagen</span>
+                                            <span class="fileupload-exists"><i class="fa fa-undo"></i> Cambiar</span>
+                                            <input name="Image" class="default" accept="image/*" type="file" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    <strong>&#161;Importante!</strong> La imagen deber&aacute; pesar menos de 500 Kb
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @Html.HiddenFor(x => x.AdCategoryId)
+                    @Html.HiddenFor(model => model.ImageString)
+                    @Html.HiddenFor(model => model.AdvertiseId)
+                    <input type="submit" value="Guardar cambios" class="btn btn-success pull-right" />
+                    @Html.ActionLink("Cancelar", "Index", new { id = Model.AdCategoryId }, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Constructor de URL
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p id="urlResult">
+                        N/A
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+    <script src="@Url.Content("~/Scripts/common.js")"></script>
+    <script src="@Url.Content("~/Scripts/chosen.jquery.js")"></script>
+}
+
+<script type="text/javascript">
+
+    $('#contentTypeInpt').on("change", function () {
+        if ($(this).val() == 1)//Opcion para imagen
+        {
+            $("#imageBox").removeAttr("hidden");
+            $("#iframeBox").attr("hidden", true);
+        }
+
+        if ($(this).val() == 2)//Opcion para iframe
+        {
+            $("#iframeBox").removeAttr("hidden");
+            $("#imageBox").attr("hidden", true);
+        }
+    });
+
+    buildUrl();
+
+    $(".form-control").on("change", function () {
+        buildUrl();
+    });
+
+    function buildUrl() {
+        $("#urlResult").html($("#Url").val() + "?utm_source=" + $("#Source").val() + "&utm_medium=" + $("#Medium").val() + "&utm_campaign=" + $("#Campaign").val() + "&utm_term=&utm_content=" + $("#Content").val());
+    }
+</script>

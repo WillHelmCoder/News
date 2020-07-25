@@ -1,0 +1,146 @@
+﻿@model List<Dal.Models.Slide>
+
+@{
+    ViewBag.Title = "Crear elemento de slider";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Agrega elementos a tu slider
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(true)
+                    <table class="table table-hover table-bordered editable-sample" id="editable-sample">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ((List<Dal.Models.News>)ViewBag.News))
+                            {
+                                <tr class="showSlide" data-id="@item.NewsId" id="newId-@item.NewsId" data-title="@item.Title">
+                                    <td>@item.Title</td>
+                                    <td>
+                                        <a href="#">
+                                            @*<img src="/Content/Data/@item.Image" alt="@item.Alt">*@
+                                            <img src="@item.Image" alt="@item.Alt">
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Contenido de tu slider
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(true)
+                    <table class="table table-hover table-bordered editable-sample" id="editable-sample">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="slidesAdded">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th>@item.News.Title</th>
+                                    <th><button type='button' class='btn btn-danger btn-xs delete-row' data-id="slide-@item.SlideId" data-slideId="@item.SlideId" data-newId="@item.NewsId">Quitar</button></th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div id="newsIdContainer">
+                        <input type="hidden" name="SliderId" value="@ViewBag.SliderId"/>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Agregar" class="btn btn-success pull-right" />
+                    @Html.ActionLink("Cancelar", "Index", new { id = ViewBag.MagId }, new { @class = "btn btn-danger pull-left" })
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section DataTable{
+
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+    <script type="text/javascript" src="/Scripts/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/Scripts/data-tables/DT_bootstrap.js"></script>
+    <script src="/Scripts/table-editable.js"></script>
+    <script>
+        var slides = @Html.Raw(Json.Encode(ViewBag.LastItems));
+        jQuery(document).ready(function () {
+            EditableTable.init();
+
+            if(slides == null){
+                $('#slidesAdded tr:first').remove();
+            }
+        });
+
+
+        $('.showSlide').on('click', function () {
+            var newId = $(this).data('id');
+            var newTitle = $(this).data('title');
+            $(this).addClass("selectedSlide");
+
+            var input = '<input type="hidden" name="NewId[]" value="' + newId + '" id="slide-' + newId + '"/>';
+            $('#newsIdContainer').append(input);
+            
+            var row;
+            row += "<tr>";
+            row += "<th>" + newTitle + "</th>";
+            row += "<th> <button type='button' class='btn btn-danger btn-xs delete-row slide-" + newId + "' data-newId='" + newId +"'  >Quitar</button></th>";
+            row += "</tr>";
+
+            $('#slidesAdded').append(row);
+        });
+
+        $(document).on('click','.delete-row',function(){
+            if (confirm("Estas seguro que quieres eliminarlo?")) {
+                var id = $(this).data('id');
+                var slideId = $(this).data('slideid');
+                var newId = $(this).data('newid');
+                var deleteBtn = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteSlide", "Sliders")',
+                    data: {id : slideId},
+                    success: function (data) {
+                        $('#newId-'+newId).removeClass('selectedSlide');
+
+                        $(deleteBtn).parent().parent().remove();
+                        $('#'+id).remove();
+                    }
+                });
+
+            }
+            return false;
+
+        });
+    </script>
+}

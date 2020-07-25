@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Dal.Models.Report>
+
+@{
+    ViewBag.Title = "Mis reportes";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Mis reportes (@Model.Count())</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary" })
+        </h3>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Medio
+                    </th>
+                    <th>
+                        Art&iacute;culo
+                    </th>
+                    <th class="text-center">
+                        Positivo
+                    </th>
+                    <th class="text-center">
+                        Pagado
+                    </th>
+                    <th>
+                        Impacto
+                    </th>
+                    <th>
+                        Comentarios
+                    </th>
+                    <th class="text-right">
+                        Opciones
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @try
+                            {
+                                @item.News.Title
+                            }
+                            catch (Exception ex)
+                            { <span>N/A</span>}
+                        </td>
+                        <td class="text-center">
+                            @if (item.IsPositive == true)
+                    { <i class="icon_box-checked"></i> }
+                    else
+                    { <i class="icon_box-empty"></i> }
+                        </td>
+                        <td class="text-center">
+                            @if (item.IsPaid == true)
+                    { <i class="icon_box-checked"></i> }
+                    else
+                    { <i class="icon_box-empty"></i> }
+                        </td>
+                        <td>
+                            @{
+                                string width = (item.Impact * 10).ToString();
+                                int left = 100 - Int32.Parse(width);
+                                string value = left.ToString();
+                            }
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="@item.Impact" aria-valuemin="0" aria-valuemax="10" style="width: @width%;">
+                                    <strong>@item.Impact</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-danger" style="width:@value%">
+                                    <strong>@(left / 10)</strong>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comments)
+                        </td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    Opciones <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Editar", "Edit", new { id = item.ReportId })</li>
+                                    <li>@Html.ActionLink("Borrar", "Delete", new { id = item.ReportId })</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="panel-body">
+            Lo sentimos, no hay reportes a&uacute;n. Te recomendamos crear uno dando click <a href="@Url.Action("Create")">AQU&Iacute;</a>
+        </div>
+    }
+</div>

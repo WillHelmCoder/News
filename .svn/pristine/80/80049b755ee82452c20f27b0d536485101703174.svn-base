@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "Testing";
+    Layout = null;
+}
+
+<h2>Testing</h2>
+

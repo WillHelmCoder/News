@@ -1,0 +1,52 @@
+﻿@model Dal.Models.Media
+
+@{
+    ViewBag.Title = "Eliminar medio";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar medio</h2>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                ¿Seguro que desea eliminar este medio?
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsDeleted)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsDeleted)
+                    </dd>
+
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @using (Html.BeginForm())
+                {
+                    <button type="submit" class="btn btn-danger">Eliminar</button> />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default pull-right" })
+                }
+            </div>
+        </div>
+    </div>
+</div>

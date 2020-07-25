@@ -1,0 +1,39 @@
+﻿@model Dal.Models.Category
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Detalle</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Contenido
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <br />
+                    <dt>
+                        Imagen
+                    </dt>
+                    <dd>
+                        <img src="http://www.expose.mx/content/data/@Model.Image" style="height:200px; width:auto" />
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                @Html.ActionLink("Editar", "Edit", new { id = Model.CategoryId }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Regresar", "Index", new { id = Model.MagazineId }, new { @class = "btn btn-default pull-right" })
+            </div>
+        </div>
+    </div>
+</div>

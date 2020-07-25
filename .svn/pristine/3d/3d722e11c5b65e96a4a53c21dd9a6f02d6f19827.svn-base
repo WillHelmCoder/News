@@ -1,0 +1,7 @@
+﻿@model List<TopInfluencers>
+@{
+    ViewBag.Title = "Top Cien de Influencers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_TopHundredInfluencers")

@@ -1,0 +1,290 @@
+﻿@model Dal.Models.MagazineIndexViewModel
+@{
+    ViewBag.Title = "Revista";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var i = 1;
+}
+<style>
+    .news-links a {
+        color: white;
+    }
+
+    .pie-chart {
+        max-height: 220px;
+    }
+
+    .margin-20-t {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="row text-center margin-20-t">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="panel" style="border-radius:0;" data-toggle="tooltip" data-placement="bottom" title="Total de articulos en la revista actual.">
+            <div class="panel-heading" style="border-radius:0; background-color:#d9c6e9; color:#683892">
+                <h3 class="panel-title">Total de art&iacute;culos</h3>
+            </div>
+            <div class="panel-body">
+                <h3>@Model.NewsCount</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-success" style="border-radius:0;" data-toggle="tooltip" data-placement="bottom" title="Total de visitas en la revista actual.">
+            <div class="panel-heading" style="border-radius:0;">
+                <h3 class="panel-title">Total de visitas</h3>
+            </div>
+            <div class="panel-body">
+                <h3>@Model.ViewsCount</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-warning" style="border-radius:0;" data-toggle="tooltip" data-placement="bottom" title="Categor&iacute;a m&aacute;s usada en la revista actual.">
+            <div class="panel-heading" style="border-radius:0;">
+                <h3 class="panel-title">@Model.MostUsedCat</h3>
+            </div>
+            <div class="panel-body">
+                <h3>@Model.MostUsedCatCount</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-info" style="border-radius:0;" data-toggle="tooltip" data-placement="bottom" title="Categor&iacute;a m&aacute;s visitada en la revista actual.">
+            <div class="panel-heading" style="border-radius:0;">
+                <h3 class="panel-title">@(Model.MostViewedCat != null ? Model.MostViewedCat : "No cuenta con visitas aún")</h3>
+            </div>
+            <div class="panel-body">
+                <h3>@Model.MostViewedCatCount</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Visitas del Mes
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Visitas generadas por d&iacute;a en el mes actual divididad por redes sociales"><button class="btn btn-default btn-xs">?</button></span>
+                </h3>
+            </div>
+            <div class="panel-body" id="line-chart-container">
+                <div id="line-chart-box" style="width:100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-6">
+        <div class="panel panel-default" style="width:auto" onclick="showNews(1)" data-toggle="modal" data-target="#newsModal">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Top 10 art&iacute;culos m&aacute;s visitados
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="D&aacute; click para ver lista de articulos"><button class="btn btn-default btn-xs">?</button></span>
+                </h3>
+            </div>
+            <div class="panel-body" id="bar-chart-top-ten-container">
+                <div id="bar-chart-top-ten-box" style="width:auto">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-6">
+        <div class="panel panel-default" style="width:auto" onclick="showNews(2)" data-toggle="modal" data-target="#newsModal">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    &Uacute;ltimos 10 art&iacute;culos publicados
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="D&aacute; click para ver lista de articulos"><button class="btn btn-default btn-xs">?</button></span>
+                </h3>
+            </div>
+            <div class="panel-body" id="bar-chart-last-ten-container">
+                <div id="bar-chart-last-ten-box" style="width:auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Reporte de medios
+                    <button class="btn btn-default btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Impacto generado en los medios registrados">?</button>
+                </header>
+                <div class="panel-body">
+                    <div class="row">
+                        @if (ViewBag.Reports != null)
+                        {
+                            foreach (var item in ViewBag.Reports)
+                            {
+                                <div class="col-md-3">
+                                    <div id="pie-chart+@item.ReportId" class="pie-chart"></div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+                                <p>Lo sentimos, esta revista no cuenta con reportes a&uacute;n.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>*@
+
+<div id="newsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer" style="margin-top:0">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"></script>
+<script src="~/Scripts/morris-chart/morris.js"></script>
+<script src="~/Scripts/Chart.js"></script>
+<script>
+    var top10 = '';
+    var last10 = '';
+
+    var last10Published = @Html.Raw(ViewBag.Last10Published);
+    var top10Visited = @Html.Raw(ViewBag.Top10Visited);
+    var Reports = @Html.Raw(ViewBag.JsonReports);
+
+    GenerateBars(top10Visited, "#0b62a4", "bar-chart-top-ten-box", 1);
+    GenerateBars(last10Published, "#3980b5", "bar-chart-last-ten-box", 2);
+    LineChart();
+
+    function GenerateBars(data, color, itemName, id)
+    {
+        if(data.length <= 0){
+            $("#" + itemName).parent().html("Lo sentimos, no hay noticias para mostrar aún.");
+            return;
+        }
+
+        var row = '';
+        var items = [];
+        var i = 1;
+
+        $.each(data, function(index, obj){
+            var item =  { y: obj.NewTitle, a: obj.Count, z: i.toString() };
+
+            if(id == 1)
+            {
+                if(obj.Count > 0)
+                {
+                    items.push(item);
+                    row += "<tr><td>" + obj.NewTitle + "</td><td>" + obj.Count + " visita(s)</td></tr>";
+                }
+            }
+            else
+            {
+                items.push(item);
+                row += "<tr><td>" + obj.NewTitle + "</td><td>" + obj.Count + " visita(s)</td></tr>";
+            }
+            i++;
+        });
+
+        Morris.Bar({
+            element: itemName,
+            data: items,
+            barColors: [color],
+            resize: true,
+            xkey: 'y',
+            ykeys: ['a'],
+            stacked: true,
+            labels: ['Visitas']
+        });
+
+        if(id == 1)
+            top10 = row;
+        else
+            last10 = row;
+    }
+
+    @*var Reports = @Html.Raw(ViewBag.JsonReports);*@
+
+    function emptySections(){
+        $('.modal-body').empty();
+        $('.modal-title').empty();
+    }
+
+    function showNews(id)
+    {
+        emptySections();
+        if(id == 1) {
+            $('.modal-body').append("<table style='width:100%'>" + top10 + "</table>");
+            $('.modal-title').append('Top 10 artículos más visitados');
+        }
+        else {
+            $('.modal-body').append("<table style='width:100%'>" + last10 + "</table>");
+            $('.modal-title').append('Ultimos 10 artículos publicados');
+        }
+    }
+
+    function inputs() {
+        var allOptions = $('#selectprod option');
+        $('#selectcat').change(function () {
+            $('#selectprod option').remove()
+            var classN = $('#selectcat option:selected').prop('class');
+            var opts = allOptions.filter('.' + classN);
+            $.each(opts, function (i, j) {
+                $(j).appendTo('#selectprod');
+            });
+        });
+    }
+
+    function LineChart(){
+        $.getJSON("/news/GetVisitsByMonth" , function () {
+        }).done(function (data){
+            var items = [];
+
+            if(data.length <= 0)
+            {
+                $("#line-chart-container").html("Lo sentimos, aún no se han generado visitas en el mes actual.");
+                return;
+            }
+
+            $.each(data, function(index, obj){
+                var item =  { y: obj.Date, a: obj.Count, b: obj.CountFb, c: obj.CountTw };
+                items.push(item);
+            });
+
+            Morris.Line({
+                element: 'line-chart-box',
+                data: items,
+                xkey: 'y',
+                ykeys: ['a', 'b', 'c'],
+                labels: ["Públicas/Directas", "Facebook", "Twitter"],
+                resize: true,
+                lineColors:["#CCC", "#3B5998", "#4099FF"],
+            });
+        }).error(function (err) {
+            $("#line-chart-container").html("Lo sentimos, aún no se han generado visitas en el mes actual.");
+        });
+    }
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    //$.each(Reports, function (index, obj) {
+    //    Morris.Donut({
+    //        element: 'pie-chart+' + obj.ReportId,
+    //        data: [
+    //          { label: obj.MediaName + " Positivo", value: obj.Impact },
+    //          { label: obj.MediaName + " Negativo", value: 10 - obj.Impact }
+    //        ],
+    //        colors: ["#38C57C", "#F7464A"],
+    //        resize: true,
+    //    });
+    //})
+</script>

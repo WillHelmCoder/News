@@ -1,0 +1,286 @@
+﻿
+@model Dal.ViewModels.MagazinesIndexViewModel
+@{
+    ViewBag.Title = "Mis revistas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.MagazinesList.Any())
+{
+    <div class="form-group relative">
+        <a href="@Url.Action("Create", "Magazines")">
+            <div class="square">+</div><span id="addMag">Agregar</span>
+        </a>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.MagazinesList)
+        {
+            var magId = item.MagazineId;
+            <div class="col-sm-6 col-md-4 no-padding">
+                <div class="panel panel-default magazine-panel">
+                    <div class="panel-heading ">
+                        <h4 style="text-align:left;float:left;">@item.Title</h4>
+                        <a href="#">
+                            <img class="setting-magazine" src="~/Content/AdminLayout/img/The_Content_Tuerca-01.png"/>
+                        </a>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="panel-body">
+
+                        @*<div class="center-block" style="background-image: url('http://thecontent.mx/Content/data/@item.Logo'); min-width: 100%; height: 180px; background-size: cover; background-repeat: no-repeat; background-position: center; margin: auto; margin: 0 -30px 20px -30px;"></div>*@
+                        <img src="http://thecontent.mx/Content/data/@item.Logo" class="magazineImage" />
+                        <div class="magazine-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 pull-left margin-20-t">
+                                    <p>Descripci&oacute;n</p>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12 pull-right margin-20-t">
+                                    <p class="text-right robot-light darker-font">@(item.Description ?? "N/A")</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 pull-left margin-20-t">
+                                    <p>Email</p>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12 pull-right darker-font margin-20-t">
+                                    <p class="text-right robot-light darker-font">@(item.Email ?? "N/A")</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 pull-left margin-20-t">
+                                    <p>Dominio</p>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12 pull-right darker-font margin-20-t">
+                                    <p class="text-right robot-light darker-font">@(item.Domain ?? "N/A")</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 pull-left margin-20-t">
+                                    <p>C&oacute;digo</p>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12 pull-right margin-20-t">
+                                    <p class="text-right robot-light darker-font">
+                                        @(item.Guid ?? "N/A") <i class="fa fa-clipboard" onclick="copyToClipboard('#guid-' + @item.MagazineId, @item.MagazineId)"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="spacer" style="width: 100%; height: 50px; float:left; display:inline-block"></div>
+                            <div class="row">
+                                <div class="magButton text-right darker">
+                                    <a href="@Url.Action("MagazineNews","News", new {id = item.MagazineId})" class="btn btn-magazine">Entrar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="thumbnail" style="width: auto; margin-bottom: 10px; height: 500px">
+                        <div class="center-block" style="background-image: url('/Content/data/@item.Logo'); min-width: 80px; height: 180px; background-size: contain; background-repeat: no-repeat; background-position: center; margin: auto">
+                        </div>
+                        <div class="caption">
+                            <h3>@item.Title</h3>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-6 pull-left">Descripci&oacute;n</div>
+                                    <div class="col-md-6 pull-right">@(item.Description ?? "N/A")</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pull-left">Email</div>
+                                    <div class="col-md-6 pull-right">@(item.Email ?? "N/A")</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pull-left">Dominio</div>
+                                    <div class="col-md-6 pull-right">@(item.Domain ?? "N/A")</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pull-left">C&oacute;digo</div>
+                                    <div class="col-md-6 pull-right">@(item.Guid ?? "N/A") <i class="fa fa-clipboard" onclick="copyToClipboard('#guid-' + @item.MagazineId, @item.MagazineId)"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pull-left">Descripci&oacute;n</div>
+                                    <div class="col-md-6 pull-right">@(item.Description ?? "N/A")</div>
+                                </div>
+                            </div>
+                            <input value="@item.Guid" id="guid-@item.MagazineId" type="hidden"/>
+                            <a class="btn btn-primary" href="@Url.Action("MagazineNews", "News", new {id = magId})">Entrar</a>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        M&aacute;s <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="@Url.Action("Edit", "Magazines", new {id = item.MagazineId})">Editar</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Delete", "Magazines", new {id = item.MagazineId})">Eliminar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center text-vertical-center" style="padding: 15% 0">
+        <h1><strong>&#161;Oops!</strong></h1>
+        <h2>
+            No cuentas con ninguna revista a&uacute;n. <br />
+            Da click a continuaci&oacute;n para crear tu primera revista.
+        </h2>
+        <br />
+        @Html.ActionLink("Continuar", "Create", null, new { @id = ViewBag.MagazineId, @class = "btn btn-primary btn-lg" })
+    </div>
+}
+
+<script>
+    function copyToClipboard(element, id) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).val()).select();
+        document.execCommand("copy");
+        $temp.remove();
+
+        $(".message-" + id).html("Copiado a portapapales");
+        $(".message-" + id).fadeIn().delay(1000).fadeOut();
+    }
+
+    $(document).ready(function (e) {
+        var divHeight = $('.thumbnail').height();
+        $('.caption').css('height', divHeight + 'px');
+    });
+</script>
+
+@*@model Dal.ViewModels.MagazinesIndexViewModel
+    @{
+        ViewBag.Title = "Mis revistas";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    @if (Model.MainMagazine != null)
+    {
+        <div class="form-group">
+            @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary" })
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                <div class="well well-lg">
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                M&aacute;s <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("Edit", "Magazines", new { id = Model.MainMagazine.MagazineId})">Editar</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Delete", "Magazines", new { id = Model.MainMagazine.MagazineId})">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="center-block" style="background-image:url('/Content/data/@Model.MainMagazine.Logo'); min-width:80px; height:280px; background-size: contain; background-repeat:no-repeat; background-position:center; margin:auto">
+                    </div>
+                    <div class="text-center">
+                        <h2>@Model.MainMagazine.Title</h2>
+                        <dl>
+                            <dt>Descripci&oacute;n</dt>
+                            <dd>@Model.MainMagazine.Description</dd>
+                            <dt>Email</dt>
+                            <dd>@Model.MainMagazine.Email</dd>
+                            <dt>Dominio</dt>
+                            <dd>@(Model.MainMagazine.Domain ?? "N/A")</dd>
+                            <dt>C&oacute;digo</dt>
+                            <dd>@(Model.MainMagazine.Guid ?? "N/A") <i class="fa fa-clipboard" onclick="copyToClipboard('#guid-'+@Model.MainMagazine.MagazineId, @Model.MainMagazine.MagazineId)"></i></dd>
+                            <dt class="red message-@Model.MainMagazine.MagazineId"></dt>
+                        </dl>
+                        <a class="btn btn-primary" href="@Url.Action("MagazineNews", "News", new { id = Model.MainMagazine.MagazineId })">Entrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        if (Model.MagazinesList != null)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    @foreach (var item in Model.MagazinesList)
+                    {
+                        var magId = item.MagazineId;
+                        <div class="col-sm-6 col-md-4 no-padding">
+                            <div class="thumbnail" style="width:auto; margin-bottom: 10px; height: 500px">
+                                <div class="center-block" style="background-image:url('/Content/data/@item.Logo'); min-width:80px; height:180px; background-size: contain; background-repeat:no-repeat; background-position:center; margin:auto">
+                                </div>
+                                <div class="caption">
+                                    <h3>@item.Title</h3>
+                                    <dl>
+                                        <dt>Descripci&oacute;n</dt>
+                                        <dd>@(item.Description ?? "N/A")</dd>
+                                        <dt>Email</dt>
+                                        <dd>@(item.Email ?? "N/A")</dd>
+                                        <dt>Dominio</dt>
+                                        <dd>@(item.Domain ?? "N/A")</dd>
+                                        <dt>C&oacute;digo</dt>
+                                        <dd>@(item.Guid ?? "N/A") <i class="fa fa-clipboard" onclick="copyToClipboard('#guid-'+@item.MagazineId, @item.MagazineId)"></i></dd>
+                                        <dt class="red message-@item.MagazineId" style="display:none"></dt>
+                                    </dl>
+                                    <input value="@item.Guid" id="guid-@item.MagazineId" type="hidden" />
+                                    <a class="btn btn-primary" href="@Url.Action("MagazineNews", "News", new { id = magId })">Entrar</a>
+                                    <div class="pull-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                M&aacute;s <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="@Url.Action("Edit", "Magazines", new { id = item.MagazineId})">Editar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Delete", "Magazines", new { id = item.MagazineId})">Eliminar</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center text-vertical-center" style="padding: 15% 0">
+            <h1><strong>&#161;Oops!</strong></h1>
+            <h2>
+                No cuentas con ninguna revista a&uacute;n. <br />
+                Da click a continuaci&oacute;n para crear tu primera revista.
+            </h2>
+            <br />
+            @Html.ActionLink("Continuar", "Create", null, new { @id = ViewBag.MagazineId, @class = "btn btn-primary btn-lg" })
+        </div>
+    }
+
+    <script>
+        function copyToClipboard(element, id) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).val()).select();
+            document.execCommand("copy");
+            $temp.remove();
+
+            $(".message-" + id).html("Copiado a portapapales");
+            $(".message-" + id).fadeIn().delay(1000).fadeOut();
+        }
+
+        $(document).ready(function (e) {
+            var divHeight = $('.thumbnail').height();
+            $('.caption').css('height', divHeight + 'px');
+        });
+    </script>*@

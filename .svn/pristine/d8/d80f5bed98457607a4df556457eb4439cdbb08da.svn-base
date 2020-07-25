@@ -1,0 +1,85 @@
+﻿@model Dal.Models.ReportViewModel
+
+@{
+    ViewBag.Title = "Editar reporte";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Editar reporte</h2>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Favor de llenar correctamente los campos requeridos
+                </h3>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ReportId)
+                    @Html.HiddenFor(model => model.MagazineId)
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.NewsId, "NewsId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("NewsId", null, htmlAttributes: new { @class = "form-control" })
+                                <span class="validation-message pull-right">
+                                    @Html.ValidationMessageFor(model => model.NewsId, "", new { @class = "text-danger" })
+                                </span>
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MediaId, "MediaId", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("MediaId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MediaId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsPositive, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsPositive)
+                            @Html.ValidationMessageFor(model => model.IsPositive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsPaid, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsPaid)
+                            @Html.ValidationMessageFor(model => model.IsPaid, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Impact, htmlAttributes: new { @class = "control-label" })
+                        <select name="Impact" class="form-control">
+                            <option value="1" @(Model.Impact == 1 ? "selected" : "")>1</option>
+                            <option value="2" @(Model.Impact == 2 ? "selected" : "")>2</option>
+                            <option value="3" @(Model.Impact == 3 ? "selected" : "")>3</option>
+                            <option value="4" @(Model.Impact == 4 ? "selected" : "")>4</option>
+                            <option value="5" @(Model.Impact == 5 ? "selected" : "")>5</option>
+                            <option value="6" @(Model.Impact == 6 ? "selected" : "")>6</option>
+                            <option value="7" @(Model.Impact == 7 ? "selected" : "")>7</option>
+                            <option value="8" @(Model.Impact == 8 ? "selected" : "")>8</option>
+                            <option value="9" @(Model.Impact == 9 ? "selected" : "")>9</option>
+                            <option value="10" @(Model.Impact == 10 ? "selected" : "")>10</option>
+                        </select>
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.Impact, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+                        <textarea name="Comments" rows="3" cols="12" class="form-control" placeholder="Comentarios">@Model.Comments</textarea>
+                        <span class="validation-message pull-right">
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger pull-right" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

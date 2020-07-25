@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Dal.Models.Quiz>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Encuestas</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create", null, new {@class = "btn btn-default" })
+</p>
+
+<table class="table table-hover table-striped">
+    <tr>
+        <th>
+            @Html.DisplayName("Título")
+        </th>
+        <th>
+            @Html.DisplayName("Descripción")
+        </th>
+        <th>
+            @Html.DisplayName("Fecha de creación")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        Acciones <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Editar", "Edit", new { id = item.QuizId })</li>
+                        <li>@Html.ActionLink("Detalles", "Details", new { id = item.QuizId })</li>
+                        <li>@Html.ActionLink("Eliminar", "Delete", new { id = item.QuizId })</li>
+                        <li>@Html.ActionLink("Preguntas", "QuestionIndex", new { id = item.QuizId })</li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

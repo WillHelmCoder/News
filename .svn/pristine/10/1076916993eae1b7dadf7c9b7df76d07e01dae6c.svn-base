@@ -1,0 +1,36 @@
+﻿@model News.Models.PayPalModel
+@{
+    ViewBag.Title = "PayPal";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PayPal</h2>
+
+<h2>Paypal</h2>
+<div class="inner">
+
+    <form id="frm" action="@ViewBag.actionUrl" method="post">
+
+        @Html.HiddenFor(model => model.cmd)
+        @Html.HiddenFor(model => model.business)
+        @Html.HiddenFor(model => model.no_shipping)
+        @Html.HiddenFor(model => model.@return)
+        @Html.HiddenFor(model => model.cancel_return)
+        @Html.HiddenFor(model => model.notify_url)
+        @Html.HiddenFor(model => model.item_name)
+        @Html.HiddenFor(model => model.item_number)
+        @Html.HiddenFor(model => model.amount)
+        @Html.HiddenFor(model => model.image_url)
+        @Html.HiddenFor(model => model.currency_code)
+
+    </form>
+    <p style="text-align:center">Redireccionando a paypal...</p>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var frm = $("#frm");
+            frm.submit();
+        });
+    </script>
+}

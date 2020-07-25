@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <title>@ViewBag.Title - The Content</title>
+
+    @RenderSection("References", false)
+    @RenderSection("scripts", false)
+
+    <script src="~/Content/AdminLayout/js/jquery.js"></script>
+
+    <link href="~/Content/AdminLayout/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/widgets.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/style.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/style-responsive.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/jquery-ui-1.10.4.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout/css/bootstrap-fileupload.css" rel="stylesheet" />
+    <link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+
+    <script src="~/Content/AdminLayout/js/bootstrap.min.js"></script>
+    <script src="~/Content/AdminLayout/js/bootstrap-fileupload.js"></script>
+    <script src="~/Content/AdminLayout/js/jquery.nicescroll.js"></script>
+    <script src="~/Content/AdminLayout/js/jquery.knob.js"></script>
+    <script src="~/Content/AdminLayout/js/scripts.js"></script>
+    @RenderSection("ExtraCss", false)
+</head>
+
+<body class="p-relative">
+    <style>
+        #AlertsContainer {
+            position: absolute !important;
+            top: 10px !important;
+            left: 10px !important;
+            right: 10px !important;
+            z-index: 10000 !important;
+        }
+    </style>
+
+    <div id="AlertsContainer" class="alert-container">
+    </div>
+
+    <section id="container">
+        <header class="header dark-bg">
+            <div class="toggle-nav">
+                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="fa fa-bars"></i></div>
+            </div>
+
+            <div class="nav search-row" id="top_menu">
+                <!--  search form start -->
+                @*<ul class="nav top-menu">
+                        <li>
+                            <form class="navbar-form">
+                                <input class="form-control" placeholder="Search" type="text">
+                            </form>
+                        </li>
+                    </ul>*@
+                <!--  search form end -->
+            </div>
+            <div class="top-nav notification-row">
+                <!-- notificatoin dropdown start-->
+                <ul class="nav pull-right top-menu">
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            @*<span class="profile-ava">
+                                    <img alt="" src="img/avatar1_small.jpg">
+                                </span>*@
+                            <span class="username">@Request.Cookies["currentUser"].Value</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li>
+                                <a href="@Url.Action("Perfil", "Account")"><i class="icon_key_alt"></i> Perfil</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LogOff", "Account")"><i class="icon_key_alt"></i> Cerrar sesi&oacute;n</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+                </ul>
+                <!-- notificatoin dropdown end-->
+            </div>
+        </header>
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!--logo start-->
+                <div>
+                    <a href="/" class="logo" style="margin-top: 15px; margin-left: 25%; min-height: 55px">
+                        @*<img src="~/Content/images/The_Content_Logo_Blanco.png"  />*@
+                        <img src="~/Content/images/The_Content_Logo.png" height="35" />
+                    </a>
+                </div>
+                <!--logo end-->
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="" href="@Url.Action("Index", "Magazines")">
+                            <i class="icon_house_alt"></i>
+                            <span>INICIO</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_desktop"></i>
+                            <span>CONTENIDO</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="@Url.Action("ListOfNews", "Influencer")">Compartir en redes</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_documents_alt"></i>
+                            <span>TU EQUIPO</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="@Url.Action("TopHundred", "Influencer")"><span>Top 100 Influencers</span></a></li>
+                            <li><a class="" href="@Url.Action("Register", "Admin")"><span>Invitar</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+        </section>
+        <!--main content end-->
+    </section>
+
+    <script type="text/javascript">
+        var timeOut;
+
+        function ShowAlert(message, classes) {
+            var alertsContainer = $("#AlertsContainer");
+            if (alertsContainer.is(':animated')) { return; }
+            alertsContainer.css('height', 'auto').css('opacity', '1').css('font-weight', '400');
+            alertsContainer.html('<div id="TheAlert" class="alert" style="height:auto !important; border-radius:0"></div>');
+
+            var theAlert = $("#TheAlert");
+            theAlert.html("<button class='close' data-dismiss='alert'>&times;</button><p>" + message + "</p>");
+            theAlert.addClass(classes);
+
+            if (alertsContainer.is(':animated')) { return; }
+            if (timeOut != null) { return; }
+            timeOut = null;
+            timeOut = setTimeout(FadeAlerts, 2000);
+        }
+
+        function FadeAlerts() {
+            var alertsContainer = $("#AlertsContainer");
+            alertsContainer.stop(true, true).animate({ height: 0, opacity: 0 }, 3000, function () {
+                alertsContainer.html("");
+                timeOut = null;
+            });
+        }
+
+        @{
+        if (TempData[Configuration.MessageMagicString] != null)
+            { <text> ShowAlert("@Html.Raw(TempData[Configuration.MessageMagicString].ToString())", "@Html.Raw(TempData[Configuration.AlertMagicString].ToString())"); </text> }
+        }
+
+        $(function () {
+            var validationErrors = $(".validation-summary-errors");
+            validationErrors.addClass('alert alert-danger');
+            validationErrors.prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+        });
+    </script>
+    @RenderSection("ExtraScript", false)
+</body>
+</html>

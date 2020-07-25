@@ -1,0 +1,12 @@
+﻿@model List<Dal.Models.Category>
+<div class="widget">
+    <h3>Secciones</h3>
+    <div class="tagcloud">
+        @*@foreach (var item in Model)
+            {
+                <a href="/home/categories/@item.CategoryId">@item.Name</a>
+            }*@
+
+    </div>
+    <!-- END .widget -->
+</div>

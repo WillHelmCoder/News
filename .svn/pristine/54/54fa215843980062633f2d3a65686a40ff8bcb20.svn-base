@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.css" />
+
+<!-- principal -->
+<div class="land-main">
+    <div class="container">
+        <h1 class="montserrat-bold">
+            THE CONTENT
+        </h1>
+        <p class="roboto-slab-light">
+            La mejor forma de administrar grandes
+            <br />
+            vol&uacute;menes de informaci&oacute;n en internet
+        </p>
+        <a class="btn btn-primary btn-lg montserrat-light margin-40-t" href="@Url.Action("Register", "Account")">
+            Registrarme
+        </a>
+    </div>
+</div><!-- fin principal -->
+<!-- ventajas -->
+<div class="advantages container margin-60-t margin-80-b text-center">
+    <h2 class="montserrat-light margin-40-b">
+        VENTAJAS
+    </h2>
+    <div class="row">
+        <!-- ventaja 1 -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center">
+            <i class="ico ico-xl ico-upload"></i>
+            <p class="roboto-slab-light font-18px">
+                Sube todo tu contenido fac&iacute;lmente
+            </p>
+        </div>
+        <!-- ventaja 2 -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center">
+            <i class="ico ico-xl ico-measure"></i>
+            <p class="roboto-slab-light font-18px">
+                Mide el tr&aacute;fico de tus diferentes sitios
+            </p>
+        </div>
+        <!-- ventaja 3 -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center">
+            <i class="ico ico-xl ico-share"></i>
+            <p class="roboto-slab-light font-18px">
+                Comparte ilimitadamente tu contenido en redes sociales
+            </p>
+        </div>
+        <!-- ventaja 4 -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center">
+            <i class="ico ico-xl ico-mag"></i>
+            <p class="roboto-slab-light font-18px">
+                Administra m&aacute;s de un sitio desde un solo panel de control
+            </p>
+        </div>
+    </div>
+</div><!-- fin ventajas -->
+<!-- como funciona -->
+<div class="how-it-works regular-l-gray-bk margin-60-t margin-60-b padding-40-t padding-40-b">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                <img src="~/Content/images/home_index/The_Content_Imagen_Laptop.png" class="width-full" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                <h3 class="montserrat-light regular-blue margin-30-b margin-50-t">
+                    C&Oacute;MO FUNCIONA
+                </h3>
+                <p class="roboto-slab-light font-18px margin-40-b margin-40-t">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam.
+                </p>
+                <a class="btn btn-primary btn-lg padding-10 padding-20-r padding-20-l montserrat-light" href="@Url.Action("Register", "Account")">
+                    Comenzar
+                </a>
+            </div>
+        </div>
+    </div>
+</div><!-- fin como funciona -->
+<!-- casos de exito -->
+<div class="successful margin-60-t margin-60-b padding-40-t padding-40-b text-center">
+    <h3 class="montserrat-light regular-gray margin-40-b">
+        CASOS DE &Eacute;XITO
+    </h3>
+    <div class="container p-relative">
+        <div class="row cases-carsl">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808061; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808052; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808043; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808034; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808025; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808016; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div style="width:150px; height: 150px; background-color: #808007; margin:auto; border-radius: 50%;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- fin casos de exito -->
+<!-- unete -->
+<div class="join-us regular-l-gray-bk margin-60-t padding-40-t padding-40-b">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center col-lg-offset-3 col-md-offset-3">
+                <h3 class="montserrat-light regular-blue margin-10-b margin-50-t">
+                    &Uacute;NETE
+                </h3>
+                <p class="roboto-slab-light font-18px margin-40-b margin-20-t">
+                    Por tan solo <span class="regular-blue">$99.99</span> al mes podr&aacute;s adquirir
+                    <br />
+                    una licencia The Content y todos sus beneficios
+                </p>
+                <a class="btn btn-primary btn-lg padding-10 padding-20-r padding-20-l montserrat-light margin-40-b" href="@Url.Action("Register", "Account")">
+                    Registrarme
+                </a>
+            </div>
+        </div>
+    </div>
+</div><!-- fin unete -->
+<!-- imagen secundaria -->
+<div class="land-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                <h3 class="montserrat-light margin-30-b">
+                    EASY PEACY
+                </h3>
+                <p class="roboto-slab-light font-18px margin-40-t">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam.
+                </p>
+            </div>
+        </div>
+    </div>
+</div><!-- fin imagen secundaria -->
+<!-- contactanos -->
+<div class="contact regular-l-gray-bk padding-40-t padding-40-b">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center col-lg-offset-3 col-md-offset-3">
+                <h3 class="montserrat-light margin-10-b margin-50-t margin-30-b">
+                    CONT&Aacute;CTANOS
+                </h3>
+                <form method="post" action="">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Nombre" name="name" type="text" required />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Correo electr&oacute;nico" name="email" type="email" required />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Tel&eacute;fono" name="phone" type="tel" required />
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Mensaje" name="message" rows="3" required></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-lg padding-10 padding-20-r padding-20-l montserrat-light margin-40-b" type="submit">
+                        Enviar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- fin contactanos -->
+
+<script src="~/Content/AdminLayout/js/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.cases-carsl').slick({
+            dots: false,
+            autoplay: true,
+            infinite: true,
+            arrows: false,
+            speed: 350,
+            slidesToShow: 4,
+            adaptiveHeight: true
+        });
+    });
+
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 450) {
+            $("#login-btn-xs").removeClass("btn-transparent-white").addClass("btn-transparent-blue").addClass("bk-white");
+            $("#navbar-img").attr("src", "/Content/images/The_Content_Logo.png");
+        }
+        else {
+            $('#login-btn-xs').removeClass("btn-transparent-blue").addClass("btn-transparent-white");
+            $("#navbar-img").attr("src", "/Content/images/The_Content_Logo_Blanco.png");
+        }
+    });
+</script>

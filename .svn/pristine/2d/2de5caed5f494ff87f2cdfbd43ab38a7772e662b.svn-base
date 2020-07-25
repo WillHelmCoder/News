@@ -1,0 +1,136 @@
+﻿@model IEnumerable<TopInfluencers>
+@{
+    ViewBag.Title = "Mis influencers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Mis influencers (@Model.Count())</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Ordenados por n&uacute;mero de visitas
+            <button class="btn btn-default btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Visitas generadas por cada influencer. D&aacute; click en el correo para ver un desglose m&aacute;s detallado">?</button>
+        </h3>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Correo</th>
+                    <th>Visitas generadas</th>
+                    <th class="text-right">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.User, "getNews", new { id = item.UserId })
+                        </td>
+                        <td>
+                            @item.Count
+                        </td>
+                        <td class="text-right">
+                            <button type="button" onclick="OpenAlert(@item.UserId)" data-toggle="modal" data-target="#influencersModal" class="btn btn-primary">
+                                Estad&iacute;sticas
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="panel-body">
+            Lo sentimos, no cuentas con influencers a&uacute;n. Vuelva m&aacute;s tarde.
+        </div>
+    }
+</div>
+
+<div id="influencersModal" class="modal modal-sm fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <h2 class="loading text-center"></h2>
+            <div class="modal-body text-center">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    function emptySections() {
+        $(".modal-title").empty();
+        $(".modal-body").empty();
+        $('.loading').empty();
+    }
+
+    function OpenAlert(id) {
+        emptySections();
+
+        $('.modal-title').append("Un momento");
+        $('.loading').append("<br/>Cargando...<br/>");
+        var statisticsUrl = "/administrador/mi-influencer/" + id;
+
+        $.getJSON(statisticsUrl, function () {
+        }).done(function (data) {
+            emptySections();
+            $(".modal-title").append("Estadistica de visitas generadas");
+            $(".modal-body").append(""
+                + "<div class='media'>"
+                    + "<div class='media-left'>"
+                        + "<img src='/Content/images/facebook_32.png' />"
+                    + "</div>"
+                    + "<div class='media-body'>"
+                        + "<h4 class='media-heading'>Facebook</h4>"
+                        + "<h4><strong>" + data[0] + "</strong></h4>"
+                    + "</div>"
+                + "</div>"
+                + "<div class='media'>"
+                    + "<div class='media-left'>"
+                        + "<img src='/Content/images/twitter_32.png' />"
+                    + "</div>"
+                    + "<div class='media-body'>"
+                        + "<h4 class='media-heading'>Twitter</h4>"
+                        + "<h4><strong>" + data[1] + "</strong></h4>"
+                    + "</div>"
+                + "</div>"
+                + "<div class='media'>"
+                    + "<div class='media-left'>"
+                        + "<img src='/Content/images/googleplus_32.png' />"
+                    + "</div>"
+                    + "<div class='media-body'>"
+                        + "<h4 class='media-heading'>Google+</h4>"
+                        + "<h4><strong>" + data[2] + "</strong></h4>"
+                    + "</div>"
+                + "</div>"
+                + "<div class='media'>"
+                    + "<div class='media-left'>"
+                        + "<img src='/Content/images/linkedin_32.png' />"
+                    + "</div>"
+                    + "<div class='media-body'>"
+                        + "<h4 class='media-heading'>LinkedIn</h4>"
+                        + "<h4><strong>" + data[3] + "</strong></h4>"
+                    + "</div>"
+                + "</div>"
+            );
+        }).error(function (err) {
+            emptySections();
+            $(".modal-title").append("Oops!");
+            $('.loading').append("<br /><strong>Lo sentimos.</strong><br />No se encontraron estadisticas.<br />");
+        });
+    }
+</script>

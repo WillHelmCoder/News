@@ -1,0 +1,123 @@
+﻿@model List<Dal.Models.News>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<aside id="sidebar">
+    <div class="widget">
+        <h3>Últimas noticias</h3>
+        <div class="article-block">
+            @foreach (var item in Model)
+            {
+                <div class="form-group">
+                    <div class="item">
+                        <div class="item-header">
+                            <a href="/noticia/@item.NewsId/@item.Permalink" class="image-hover"><img src="@item.Image" alt="@item.Title" /></a>
+                        </div>
+                        <div class="item-content">
+                            <div class="content-category">
+                                <a href="~/categoria/@item.CategoryId/@item.Category.Name.Replace(' ', '-')" class="bluecolor">@item.Category.Name</a>
+                            </div>
+                            <h4><a href="/noticia/@item.NewsId/@item.Permalink">@item.Title</a></h4>
+                            <span><a href="/buscar-fecha/@item.CreationDate.Date.ToString("dd-MM-yyyy")">@item.CreationDate.ToShortDateString()</a></span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="sidebar-fixed">
+        <div class="widget">
+            <h3>Busqueda por etiqueta y fechas:</h3>
+            <div class="article-block">
+                <div class="form-group">
+                    <div class="item-header" align="center">
+                        <h4>Introduce los campos necesarios</h4>
+                        <div class="item content margin-top-20">
+                            <form action="/home/search" method="GET">
+                                <div class="form-group">
+                                    <input name="tag" type="text" class="form-control" placeholder="Tag">
+                                </div>
+                                <div class="form-group">
+                                    <input class="datepicker form-control" name="from" type="date" placeholder="Desde dd/MM/aaaa" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="datepicker form-control" name="to" type="date" placeholder="Hasta dd/MM/aaaa" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Buscar" class="btn btn-info" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="widget">
+        <h3>Social</h3>
+        <div class="socialize-widget">
+
+
+            <div class="ot-social-block">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+
+                    <a href="https://www.facebook.com/pages/ExposeMx/808864969192443?ref=hl" class="soc-link soc-facebook">
+
+                        <div id="fb-root"></div>
+
+                        <script>
+                            (function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+
+                        </script>
+                        <strong><small> Facebook </small></strong>
+
+                        <div class="fb-like" align="right" data-href="https://www.facebook.com/pages/ExposeMx/808864969192443?ref=hl" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" data-layout="button_count" data-width="15%">
+                        </div>
+                    </a>
+                </div>
+
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="https://www.linkedin.com/company/expose-m%C3%A9xico?trk=top_nav_home" class="soc-link soc-linkedin">
+
+                        <script type="text/javascript" src="//platform.linkedin.com/in.js"> lang: es_ES</script>
+                        <strong><small>LinkedIn</small></strong>
+                        <script type="IN/Share" data-url="https://www.linkedin.com/company/expose-m%25C3%25A9xico?trk=top_nav_home" data-counter="right">
+                        </script>
+
+
+                    </a>
+                </div>
+
+                <script>
+                    function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + '://platform.twitter.com/widgets.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'twitter-wjs');
+                </script>
+
+            </div>
+        </div>
+    </div>
+</aside>
+
+<script>
+    $(".datepicker").datepicker({
+        dateFormat: "dd/mm/yy",
+    });
+</script>
